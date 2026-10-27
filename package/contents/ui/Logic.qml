@@ -160,17 +160,12 @@ Item {
 		target: plasmoid.configuration
 
 		//--- Events
-		onAccessTokenChanged: logic.updateEvents()
-		onCalendarIdListChanged: logic.updateEvents()
 		onEnabledCalendarPluginsChanged: logic.updateEvents()
-		onTasklistIdListChanged: logic.updateEvents()
-		onGoogleEventClickActionChanged: logic.updateEvents()
 
 		//--- Weather
 		onWeatherServiceChanged: logic.resetWeatherAndUpdate()
 		onOpenWeatherMapAppIdChanged: logic.resetWeatherAndUpdate()
 		onOpenWeatherMapCityIdChanged: logic.resetWeatherAndUpdate()
-		onWeatherCanadaCityIdChanged: logic.resetWeatherAndUpdate()
 		onWeatherUnitsChanged: logic.updateWeather(true)
 		onWidgetShowMeteogramChanged: {
 			if (plasmoid.configuration.widgetShowMeteogram) {
@@ -191,15 +186,7 @@ Item {
 
 	//---
 	property int currentErrorType: ErrorType.UnknownError
-	property string currentErrorMessage: {
-		if (plasmoid.configuration.accessToken && plasmoid.configuration.latestClientId != plasmoid.configuration.sessionClientId) {
-			return i18n("Widget has been updated. Please logout and login to Google Calendar again.")
-		} else if (!plasmoid.configuration.accessToken && plasmoid.configuration.access_token) {
-			return i18n("Logged out of Google. Please login again.")
-		} else {
-			return ""
-		}
-	}
+	property string currentErrorMessage: ""
 	function clearError() {
 		currentErrorType = ErrorType.NoError
 		if (popup) popup.clearError()

@@ -28,15 +28,7 @@ LinkRect {
 		onLoaded: agendaEventItem.checkIfInProgress()
 		onMinuteChanged: agendaEventItem.checkIfInProgress()
 	}
-	Component.onCompleted: {
-		agendaEventItem.checkIfInProgress()
-
-		//--- Debugging
-		// editEventForm.active = eventItemInProgress && !model.startDateTime
-	}
-
-	property alias isEditing: editEventForm.active
-	enabled: !isEditing
+	Component.onCompleted: agendaEventItem.checkIfInProgress()
 
 	readonly property string eventTimestamp: LocaleFuncs.formatEventDuration(model, {
 		relativeDate: agendaItemDate,
@@ -128,7 +120,6 @@ LinkRect {
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
 				font.weight: eventItemInProgress ? inProgressFontWeight : Font.Normal
-				visible: !editEventForm.visible
 				Layout.fillWidth: true
 
 				// The Following doesn't seem to be applicable anymore (left comment just in case).
@@ -151,7 +142,7 @@ LinkRect {
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
 				font.weight: eventItemInProgress ? inProgressFontWeight : Font.Normal
-				visible: !editEventForm.visible && !isCondensed
+				visible: !isCondensed
 			}
 
 			Item {
@@ -163,7 +154,7 @@ LinkRect {
 			PlasmaComponents3.Label {
 				id: eventDescription
 				readonly property bool showProperty: plasmoid.configuration.agendaShowEventDescription && text
-				visible: showProperty && !editEventForm.visible
+				visible: showProperty
 				text: Shared.renderText(model.description)
 				color: PlasmaCore.ColorScope.textColor
 				opacity: 0.75
@@ -185,95 +176,21 @@ LinkRect {
 				}
 			}
 
-			Item {
-				id: eventEditorSpacing
-				visible: editEventForm.visible
-				implicitHeight: 4 * units.devicePixelRatio
-			}
-
-			EditEventForm {
-				id: editEventForm
-				// active: true
-			}
-
-			Item {
-				id: eventEditorSpacingBelow
-				visible: editEventForm.visible
-				implicitHeight: 4 * units.devicePixelRatio
-			}
-
-			Loader {
-				id: eventHangoutLinkLoader
-				readonly property bool showProperty: plasmoid.configuration.agendaShowEventHangoutLink && !!externalLink
-				readonly property string externalLink: model.hangoutLink || model.conferenceData && model.conferenceData.entryPoints && model.conferenceData.entryPoints[0].uri || ''
-				visible: showProperty && !editEventForm.visible
-				active: visible
-
-				sourceComponent: PlasmaComponents3.ToolButton {
-					id: eventHangoutLink
-					text: {
-						if (!!model.conferenceData
-							&& !!model.conferenceData.conferenceSolution
-							&& !!model.conferenceData.conferenceSolution.name
-						) {
-							return model.conferenceData.conferenceSolution.name
-						} else {
-							return i18n("Hangout")
-						}
-					}
-					icon.source: plasmoid.file("", "icons/hangouts.svg")
-					onClicked: Qt.openUrlExternally(externalLink)
-				}
-			}
 
 		} // eventColumn
 	}
 	
 	onLeftClicked: {
-		// logger.log('agendaItem.event.leftClicked', model.startDateTime, mouse)
-		if (false) {
-			var event = events.get(eventItemIndex)
-			logger.logJSON("event", event)
-			var calendar = eventModel.getCalendar(event.calendarId)
-			logger.logJSON("calendar", calendar)
-			upcomingEvents.sendEventStartingNotification(model)
-		} else {
-			// agenda_event_clicked == "browser_viewevent"
+		if (model.htmlLink) {
 			Qt.openUrlExternally(model.htmlLink)
 		}
 	}
 
 	onLoadContextMenu: {
-		var menuItem
 		var event = events.get(eventItemIndex)
 
-		menuItem = contextMenu.newMenuItem()
-		menuItem.text = i18n("Edit")
-		menuItem.icon = "edit-rename"
-		menuItem.enabled = event.canEdit
-		menuItem.clicked.connect(function() {
-			editEventForm.active = !editEventForm.active
-			agendaScrollView.positionViewAtEvent(agendaItemIndex, eventItemIndex)
-		})
-		contextMenu.addMenuItem(menuItem)
-
-		var deleteMenuItem = contextMenu.newSubMenu()
-		deleteMenuItem.text = i18n("Delete Event")
-		deleteMenuItem.icon = "delete"
-		menuItem = contextMenu.newMenuItem(deleteMenuItem)
-		menuItem.text = i18n("Confirm Deletion")
-		menuItem.icon = "delete"
-		menuItem.enabled = event.canEdit
-		menuItem.clicked.connect(function() {
-			logger.debug('eventModel.deleteEvent', event.calendarId, event.id)
-			eventModel.deleteEvent(event.calendarId, event.id)
-		})
-		deleteMenuItem.enabled = event.canEdit
-		deleteMenuItem.subMenu.addMenuItem(menuItem)
-		contextMenu.addMenuItem(deleteMenuItem)
-
-		menuItem = contextMenu.newMenuItem()
-		menuItem.text = i18n("Edit in browser")
+		var menuItem = contextMenu.newMenuItem()
+		menuItem.text = i18n("Open in browser")
 		menuItem.icon = "internet-web-browser"
 		menuItem.enabled = !!event.htmlLink
 		menuItem.clicked.connect(function() {

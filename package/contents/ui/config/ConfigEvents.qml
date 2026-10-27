@@ -21,11 +21,6 @@ ConfigPage {
 			enabled: false
 			visible: plasmoid.configuration.debugging
 		}
-		CheckBox {
-			text: i18n("Google Calendar")
-			checked: true
-			enabled: false
-		}
 	}
 
 

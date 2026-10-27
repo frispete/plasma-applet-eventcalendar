@@ -12,7 +12,6 @@ GridLayout {
 	readonly property int agendaItemIndex: index
 	columnSpacing: 0
 	property var agendaItemEvents: model.events
-	property var agendaItemTasks: model.tasks
 	property date agendaItemDate: model.date
 	property bool agendaItemIsToday: false
 	function checkIfToday() {
@@ -27,7 +26,6 @@ GridLayout {
 	}
 	property bool agendaItemInProgress: agendaItemIsToday
 	property bool weatherOnRight: plasmoid.configuration.agendaWeatherOnRight
-	property alias tasksRepeater: tasksRepeater
 	property alias eventsRepeater: eventsRepeater
 
 	Connections {
@@ -163,13 +161,7 @@ GridLayout {
 
 		onLeftClicked: {
 			// console.log('agendaItem.date.leftClicked', date)
-			if (false) {
-				// agenda_date_clicked == "browser_newevent"
-				Shared.openGoogleCalendarNewEventUrl(date)
-			} else if (true) {
-				// agenda_date_clicked == "agenda_newevent"
-				newEventForm.active = !newEventForm.active
-			}
+			newEventForm.active = !newEventForm.active
 		}
 	}
 
@@ -197,18 +189,12 @@ GridLayout {
 					width: parent.width
 				}
 			}
-
-			Repeater {
-				id: tasksRepeater
-				model: agendaItemTasks
-
-				delegate: AgendaTaskItem {
-					id: agendaTaskItem
-					width: parent.width
-				}
-			}
 		}
 
+	}
+
+	function openNewEventForm() {
+		newEventForm.active = true
 	}
 
 	function indexOfEvent(eventId) {
@@ -216,12 +202,6 @@ GridLayout {
 			var event = eventsRepeater.model[i]
 			if (event.id === eventId) {
 				return i
-			}
-		}
-		for (var i = 0; i < tasksRepeater.model.length; i++) {
-			var task = tasksRepeater.model[i]
-			if (task.id === eventId) {
-				return eventsRepeater.model.length + i
 			}
 		}
 		return -1
@@ -232,17 +212,6 @@ GridLayout {
 		for (var i = 0; i < index && i < eventsRepeater.count; i++) {
 			var item = eventsRepeater.itemAt(i)
 			if (i > 0) {
-				yOffset += eventsLayout.spacing
-			}
-			yOffset += item.height
-		}
-		for (var i = 0; i < tasksRepeater.count; i++) {
-			var item = tasksRepeater.itemAt(i)
-			var eventIndex = eventsRepeater.count + i
-			if (eventIndex >= index) {
-				break
-			}
-			if (i > 0 || eventsRepeater.count > 0) {
 				yOffset += eventsLayout.spacing
 			}
 			yOffset += item.height

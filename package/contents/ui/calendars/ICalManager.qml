@@ -15,7 +15,6 @@ CalendarManager {
 		{
 			url: "/home/chris/Code/icsjson/basic.ics",
 			backgroundColor: '#ff0',
-			isTasklist: false,
 		}
 	]
 

@@ -14,8 +14,6 @@ Item {
 	property color inProgressColor: appletConfig.agendaInProgressColor
 	property int inProgressFontWeight: Font.Bold
 
-	property color isOverdueColor: PlasmaCore.ColorScope.negativeTextColor
-	property int isOverdueFontWeight: Font.Bold
 
 	signal newEventFormOpened(var agendaItem, var calendarSelector)
 	signal submitNewEventForm(string calendarId, var date, string text)
@@ -160,14 +158,6 @@ Item {
 			scrollToY(offsetY)
 		}
 
-		function positionViewAtTask(agendaItemIndex, taskIndex) {
-			var offsetY = getItemOffsetY(agendaItemIndex)
-			var agendaListItem = agendaRepeater.itemAt(agendaItemIndex)
-			var eventIndex = agendaListItem.agendaItemEvents.count + taskIndex
-			offsetY += agendaListItem.getEventOffset(eventIndex)
-			scrollToY(offsetY)
-		}
-
 		function positionViewAtEnd() {
 			scrollToY(contentHeight)
 		}
@@ -213,6 +203,17 @@ Item {
 		}
 		// If the date is greater than any item in the agenda, scroll to the bottom.
 		agendaScrollView.positionViewAtEnd()
+	}
+
+	function openNewEventForm(date) {
+		for (var i = 0; i < agendaRepeater.count; i++) {
+			var agendaItem = root.agendaModel.get(i)
+			if (Shared.isSameDate(date, agendaItem.date)) {
+				agendaRepeater.itemAt(i).openNewEventForm()
+				agendaScrollView.positionViewAtIndex(i)
+				return
+			}
+		}
 	}
 
 	// [Note] This function is untested!

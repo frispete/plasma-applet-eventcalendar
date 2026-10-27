@@ -30,7 +30,7 @@ ConfigPage {
 			label: i18n("Double-click on Date:")
 			configKey: 'monthDayDoubleClick'
 			model: [
-				{ value: 'GoogleCalWeb', text: i18n("New Google Calendar Event (Web Browser)")  },
+				{ value: 'AgendaNewEvent', text: i18n("New Event (Agenda)") },
 				{ value: 'DoNothing', text: i18n("Do Nothing") },
 			]
 		}

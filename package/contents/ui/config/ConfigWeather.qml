@@ -19,7 +19,6 @@ ConfigPage {
 
 		model: [
 			{ value: 'OpenWeatherMap', text: 'OpenWeatherMap' },
-			{ value: 'WeatherCanada', text: 'WeatherCanada' },
 		]
 	}
 
@@ -57,28 +56,6 @@ ConfigPage {
 			}
 		}
 
-		RowLayout {
-			visible: weatherService.value === 'WeatherCanada'
-			Label {
-				text: i18n("City Id:")
-			}
-			ConfigString {
-				id: weatherCanadaCityId
-				configKey: 'weatherCanadaCityId'
-				placeholderText: i18n("Eg: on-14")
-			}
-			Button {
-				text: i18n("Find City")
-				onClicked: weatherCanadaCityDialog.open()
-			}
-
-			WeatherCanadaCityDialog {
-				id: weatherCanadaCityDialog
-				onAccepted: {
-					weatherCanadaCityId.value = selectedCityId
-				}
-			}
-		}
 	}
 
 	HeaderText {

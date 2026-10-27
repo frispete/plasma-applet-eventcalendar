@@ -107,10 +107,6 @@ ConfigPage {
 			configKey: 'agendaCondensedAllDayEvent'
 			text: i18n("Hide 'All Day' text")
 		}
-		ConfigCheckBox {
-			configKey: 'agendaShowEventHangoutLink'
-			text: i18n("Google Hangouts link")
-		}
 		ConfigRadioButtonGroup {
 			id: clickEventGroup
 			label: i18n("Click Event:")

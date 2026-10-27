@@ -312,7 +312,7 @@ MouseArea {
 			// 	today = new Date()
 			// }
 
-			function parseGCalEvents(data) {
+			function parseEvents(data) {
 				if (!(data && data.items)) {
 					return
 				}
@@ -357,8 +357,8 @@ MouseArea {
 				var doubleClickOption = plasmoid.configuration.monthDayDoubleClick
 
 				switch (doubleClickOption) {
-					case 'GoogleCalWeb':
-						Shared.openGoogleCalendarNewEventUrl(date)
+					case 'AgendaNewEvent':
+						agendaView.openNewEventForm(date)
 						return
 					default:
 						return
@@ -447,9 +447,9 @@ MouseArea {
 			updateUITimer.running = false
 		}
 
-		agendaModel.parseGCalEvents(eventModel.eventsData)
+		agendaModel.parseEvents(eventModel.eventsData)
 		agendaModel.parseWeatherForecast(logic.dailyWeatherData)
-		monthView.parseGCalEvents(eventModel.eventsData)
+		monthView.parseEvents(eventModel.eventsData)
 		scrollToSelection()
 	}
 }
