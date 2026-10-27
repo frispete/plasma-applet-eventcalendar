@@ -55,7 +55,6 @@ fi
 echoGray "[translate/merge] Extracting messages"
 potArgs="--from-code=UTF-8 --width=200 --add-location=file"
 
-sed -i 's/"Content-Type: text\/plain; charset=CHARSET\\n"/"Content-Type: text\/plain; charset=UTF-8\\n"/' "template.pot.new"
 
 # See Ki18n's extract-messages.sh for a full example:
 # https://invent.kde.org/sysadmin/l10n-scripty/-/blob/master/extract-messages.sh#L25
@@ -86,6 +85,7 @@ xgettext \
 	|| \
 	{ echoRed "[translate/merge] error while calling xgettext. aborting."; exit 1; }
 
+sed -i 's/"Content-Type: text\/plain; charset=CHARSET\\n"/"Content-Type: text\/plain; charset=UTF-8\\n"/' "template.pot.new"
 sed -i 's/# SOME DESCRIPTIVE TITLE./'"# Translation of ${widgetName} in LANGUAGE"'/' "template.pot.new"
 sed -i 's/# Copyright (C) YEAR THE PACKAGE'"'"'S COPYRIGHT HOLDER/'"# Copyright (C) $(date +%Y)"'/' "template.pot.new"
 

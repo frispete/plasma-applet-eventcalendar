@@ -6,8 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eventcalendar\n"
-"Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-eventcalendar\n"
-"POT-Creation-Date: 2023-08-18 10:16-0400\n"
+"Report-Msgid-Bugs-To: https://github.com/frispete/plasma-applet-"
+"eventcalendar\n"
+"POT-Creation-Date: 2026-10-27 17:41+0100\n"
 "PO-Revision-Date: 2019-04-17 16:43+0800\n"
 "Last-Translator: Core小睿 <i@coreja.com>\n"
 "Language-Team: \n"
@@ -17,16 +18,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 2.2.1\n"
-
-#: ../metadata.desktop ../contents/ui/AgendaView.qml
-#: ../contents/ui/UpcomingEvents.qml
-msgid "Event Calendar"
-msgstr ""
-
-#: ../metadata.desktop
-msgid ""
-"Plasmoid for a calendar+agenda with weather that syncs to Google Calendar."
-msgstr ""
 
 #: ../contents/config/config.qml
 msgid "General"
@@ -56,10 +47,6 @@ msgstr "事件"
 msgid "ICalendar (.ics)"
 msgstr ""
 
-#: ../contents/config/config.qml ../contents/ui/config/ConfigEvents.qml
-msgid "Google Calendar"
-msgstr "Google 日历"
-
 #: ../contents/config/config.qml
 msgid "Weather"
 msgstr "天气"
@@ -68,30 +55,13 @@ msgstr "天气"
 msgid "Advanced"
 msgstr "高级"
 
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/EditEventForm.qml
-#: ../contents/ui/LocaleFuncs.js
+#: ../contents/ui/AgendaEventItem.qml ../contents/ui/LocaleFuncs.js
 msgid "All Day"
 msgstr "全天"
 
 #: ../contents/ui/AgendaEventItem.qml
-msgid "Hangout"
+msgid "Open in browser"
 msgstr ""
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit"
-msgstr "编辑"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Delete Event"
-msgstr "删除事件"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Confirm Deletion"
-msgstr "确认删除"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit in browser"
-msgstr "在浏览器中编辑"
 
 #: ../contents/ui/AgendaListItem.qml
 msgctxt "agenda date format line 1"
@@ -103,9 +73,8 @@ msgctxt "agenda date format line 2"
 msgid "ddd"
 msgstr ""
 
-#: ../contents/ui/AgendaTaskItem.qml ../contents/ui/LocaleFuncs.js
-msgctxt "short month+date format"
-msgid "MMM d"
+#: ../contents/ui/AgendaView.qml ../contents/ui/UpcomingEvents.qml
+msgid "Event Calendar"
 msgstr ""
 
 #: ../contents/ui/calendars/CalendarManager.qml
@@ -116,28 +85,6 @@ msgstr "（没有标题）"
 #: ../contents/ui/CalendarSelector.qml
 msgid "[No Calendars]"
 msgstr "[没有日历]"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "HTTP Error %1: %2"
-msgstr ""
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Could not connect"
-msgstr ""
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Will try again soon."
-msgstr ""
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-#: ../contents/ui/config/ConfigGoogleCalendar.qml ../contents/ui/Logic.qml
-msgid ""
-"Widget has been updated. Please logout and login to Google Calendar again."
-msgstr ""
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-msgid "Too many web requests. Will try again soon."
-msgstr ""
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Show agenda"
@@ -195,10 +142,6 @@ msgid "Click Date:"
 msgstr "点击日期："
 
 #: ../contents/ui/config/ConfigAgenda.qml
-msgid "Open New Event In Browser"
-msgstr "在浏览器中新建事件"
-
-#: ../contents/ui/config/ConfigAgenda.qml
 msgid "Open New Event Form"
 msgstr "在窗体中新建事件"
 
@@ -209,10 +152,6 @@ msgstr "事件详情"
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Hide 'All Day' text"
 msgstr ""
-
-#: ../contents/ui/config/ConfigAgenda.qml
-msgid "Google Hangouts link"
-msgstr "Google Hangouts 链接"
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Click Event:"
@@ -284,8 +223,8 @@ msgid "Double-click on Date:"
 msgstr "双击日期："
 
 #: ../contents/ui/config/ConfigCalendar.qml
-msgid "New Google Calendar Event (Web Browser)"
-msgstr "在浏览器中新建Google 日历事件"
+msgid "New Event (Agenda)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigCalendar.qml
 msgid "Do Nothing"
@@ -380,6 +319,13 @@ msgstr "Event Calendar 插件"
 #: ../contents/ui/config/ConfigEvents.qml
 msgid "Plasma Calendar Plugins"
 msgstr "Plasma 日历插件"
+
+#: ../contents/ui/config/ConfigEvents.qml
+msgid ""
+"Enable the calendar events (PIM) plugin to show calendars from KOrganizer/"
+"Akonadi, eg: Google Calendar. Choose the calendars on its settings page, "
+"which appears in the sidebar once the plugin is enabled."
+msgstr ""
 
 #: ../contents/ui/config/ConfigEvents.qml
 #: ../contents/ui/config/ConfigGeneral.qml
@@ -513,8 +459,8 @@ msgid "Volume (No UI) (amixer)"
 msgstr "音量（无图像）（amixer）"
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid "Volume (UI) (qdbus)"
-msgstr "音量（有图像）（qdbus）"
+msgid "Volume (UI) (qdbus6)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
 msgid "Desktop Widget: Show background"
@@ -532,79 +478,9 @@ msgstr ""
 msgid "Enable Debugging"
 msgstr "开启Debugging"
 
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Login"
-msgstr "登录"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Currently Synched."
-msgstr "当前已同步。"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Logout"
-msgstr "注销"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "To sync with Google Calendar"
-msgstr "用以与Google日历同步"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid ""
-"Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login and "
-"give permission to access your calendar, it will give you a code to paste "
-"below."
-msgstr ""
-"访问 <a href=\"%1\">%2</a> （会在浏览器中打开）。在你登录并授权访问你的日历"
-"后，请在下方粘贴网页提供的授权码。"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Copy Link"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Enter code here (Eg: %1)"
-msgstr "请在此输入授权码 （例如： %1）"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Submit"
-msgstr "提交"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Invalid Google Authorization Code"
-msgstr "无效的Google授权码"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Calendars"
 msgstr "日历"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Refresh"
-msgstr "刷新"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Tasks"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Options"
-msgstr "选项"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Event Click:"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Event View"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Month View"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Hide \"This event was added from Goals in Google Calendar\" description"
-msgstr ""
 
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Add Calendar"
@@ -635,8 +511,14 @@ msgid "Agenda below the Calendar (Single Column)"
 msgstr ""
 
 #: ../contents/ui/config/ConfigTimezones.qml
-msgid "Tooltip"
-msgstr "选择"
+msgctxt "city, region"
+msgid "%1, %2"
+msgstr ""
+
+#: ../contents/ui/config/ConfigTimezones.qml
+msgctxt "time zone name (comment)"
+msgid "%1 (%2)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigTimezones.qml
 msgid "Cannot deselect Local time from the tooltip"
@@ -661,10 +543,6 @@ msgstr "例如：1791247"
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Find City"
 msgstr "查找城市"
-
-#: ../contents/ui/config/ConfigWeather.qml
-msgid "Eg: on-14"
-msgstr "例如：on-14"
 
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Settings"
@@ -728,73 +606,20 @@ msgid "Icons"
 msgstr "图标"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Select city"
 msgstr "选择城市"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Fetched from <a href=\"%1\">%1</a>"
 msgstr "数据来源于网站 <a href=\"%1\">%1</a>"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Search"
 msgstr "查找"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Name"
-msgstr "名字"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Id"
-msgstr "编号"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "City Webpage"
-msgstr "城市网页"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Open Link"
 msgstr "打开链接"
-
-#: ../contents/ui/DateTimeSelector.qml
-msgctxt "event editor date format"
-msgid "d MMM, yyyy"
-msgstr ""
-
-#: ../contents/ui/DurationSelector.qml
-msgid "to"
-msgstr "至"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Event Title"
-msgstr "事件标题"
-
-#: ../contents/ui/EditEventForm.qml
-msgid "Add location"
-msgstr ""
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Add description"
-msgstr ""
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "&Save"
-msgstr "保存"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-#: ../contents/ui/TimerInputView.qml
-msgid "&Cancel"
-msgstr "取消"
-
-#: ../contents/ui/EditTaskForm.qml
-msgid "Add due date"
-msgstr ""
 
 #: ../contents/ui/lib/AppletVersion.qml
 msgid "<b>Version:</b> %1"
@@ -838,6 +663,11 @@ msgid "h:mm AP"
 msgstr ""
 
 #: ../contents/ui/LocaleFuncs.js
+msgctxt "short month+date format"
+msgid "MMM d"
+msgstr ""
+
+#: ../contents/ui/LocaleFuncs.js
 msgctxt "date (%1) with time (%2)"
 msgid "%1, %2"
 msgstr ""
@@ -865,20 +695,24 @@ msgid "%1s"
 msgstr ""
 
 #: ../contents/ui/Logic.qml
-msgid "Weather API limit reached"
+msgid "Could not connect"
 msgstr ""
 
 #: ../contents/ui/Logic.qml
-msgid "Logged out of Google. Please login again."
+msgid "HTTP Error %1: %2"
+msgstr ""
+
+#: ../contents/ui/Logic.qml
+msgid "Will try again soon."
+msgstr ""
+
+#: ../contents/ui/Logic.qml
+msgid "Weather API limit reached"
 msgstr ""
 
 #: ../contents/ui/main.qml
 msgid "Set Language…"
 msgstr "设置语言…"
-
-#: ../contents/ui/main.qml
-msgid "Set Locale…"
-msgstr "设置本地化…"
 
 #: ../contents/ui/MeteogramView.qml
 #, c-format
@@ -916,6 +750,10 @@ msgstr ""
 #: ../contents/ui/TimerInputView.qml
 msgid "&Start"
 msgstr ""
+
+#: ../contents/ui/TimerInputView.qml
+msgid "&Cancel"
+msgstr "取消"
 
 #: ../contents/ui/TimerModel.qml
 msgid "Timer finished"
@@ -965,6 +803,95 @@ msgstr "即将到来的事件"
 msgctxt "%1 = 15 minutes"
 msgid "Starting in %1"
 msgstr ""
+
+#~ msgid "Google Calendar"
+#~ msgstr "Google 日历"
+
+#~ msgid "Edit"
+#~ msgstr "编辑"
+
+#~ msgid "Delete Event"
+#~ msgstr "删除事件"
+
+#~ msgid "Confirm Deletion"
+#~ msgstr "确认删除"
+
+#~ msgid "Edit in browser"
+#~ msgstr "在浏览器中编辑"
+
+#~ msgid "Open New Event In Browser"
+#~ msgstr "在浏览器中新建事件"
+
+#~ msgid "Google Hangouts link"
+#~ msgstr "Google Hangouts 链接"
+
+#~ msgid "New Google Calendar Event (Web Browser)"
+#~ msgstr "在浏览器中新建Google 日历事件"
+
+#~ msgid "Volume (UI) (qdbus)"
+#~ msgstr "音量（有图像）（qdbus）"
+
+#~ msgid "Login"
+#~ msgstr "登录"
+
+#~ msgid "Currently Synched."
+#~ msgstr "当前已同步。"
+
+#~ msgid "Logout"
+#~ msgstr "注销"
+
+#~ msgid "To sync with Google Calendar"
+#~ msgstr "用以与Google日历同步"
+
+#~ msgid ""
+#~ "Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login "
+#~ "and give permission to access your calendar, it will give you a code to "
+#~ "paste below."
+#~ msgstr ""
+#~ "访问 <a href=\"%1\">%2</a> （会在浏览器中打开）。在你登录并授权访问你的日"
+#~ "历后，请在下方粘贴网页提供的授权码。"
+
+#~ msgid "Enter code here (Eg: %1)"
+#~ msgstr "请在此输入授权码 （例如： %1）"
+
+#~ msgid "Submit"
+#~ msgstr "提交"
+
+#~ msgid "Invalid Google Authorization Code"
+#~ msgstr "无效的Google授权码"
+
+#~ msgid "Refresh"
+#~ msgstr "刷新"
+
+#~ msgid "Options"
+#~ msgstr "选项"
+
+#~ msgid "Tooltip"
+#~ msgstr "选择"
+
+#~ msgid "Eg: on-14"
+#~ msgstr "例如：on-14"
+
+#~ msgid "Name"
+#~ msgstr "名字"
+
+#~ msgid "Id"
+#~ msgstr "编号"
+
+#~ msgid "City Webpage"
+#~ msgstr "城市网页"
+
+#~ msgid "to"
+#~ msgstr "至"
+
+#~ msgid "Event Title"
+#~ msgstr "事件标题"
+
+#~ msgid "&Save"
+#~ msgstr "保存"
+
+#~ msgid "Set Locale…"
+#~ msgstr "设置本地化…"
 
 #~ msgid ""
 #~ "Enable Debugging\n"
