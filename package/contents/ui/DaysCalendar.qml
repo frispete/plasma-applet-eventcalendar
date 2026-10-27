@@ -70,13 +70,13 @@ Item {
 	readonly property int cellHeight:  Math.floor((stack.height - heading.height - calendarGrid.rows * root.borderWidth) / calendarGrid.rows)
 
 	property real transformScale: 1
-	property point transformOrigin: Qt.point(width / 2, height / 2)
+	property point scaleOrigin: Qt.point(width / 2, height / 2)
 
 	transform: Scale {
 		xScale: daysCalendar.transformScale
 		yScale: xScale
-		origin.x: transformOrigin.x
-		origin.y: transformOrigin.y
+		origin.x: scaleOrigin.x
+		origin.y: scaleOrigin.y
 	}
 
 	Behavior on scale {

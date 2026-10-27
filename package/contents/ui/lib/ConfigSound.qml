@@ -1,4 +1,4 @@
-// Version 5
+// Version 6
 
 import QtQuick
 import QtQuick.Controls
@@ -41,18 +41,18 @@ RowLayout {
 	Button {
 		icon.name: "folder-symbolic"
 		enabled: sfxEnabled
-		onClicked: sfxPathDialog.visible = true
+		onClicked: sfxPathDialog.open()
 
 		FileDialog {
 			id: sfxPathDialog
 			title: i18n("Choose a sound effect")
-			folder: '/usr/share/sounds'
+			currentFolder: 'file:///usr/share/sounds'
 			nameFilters: [
 				i18n("Sound files (%1)", "*.wav *.mp3 *.oga *.ogg"),
 				i18n("All files (%1)", "*"),
 			]
 			onAccepted: {
-				sfxPathValue = fileUrl
+				sfxPathValue = decodeURIComponent(('' + selectedFile).replace(/^file:\/\//, ''))
 			}
 		}
 	}

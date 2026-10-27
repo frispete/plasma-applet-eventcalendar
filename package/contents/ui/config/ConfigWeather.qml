@@ -25,7 +25,7 @@ ConfigPage {
 
 	ConfigSection {
 		RowLayout {
-			visible: Plasmoid.configuration.debugging && weatherService.value === 'OpenWeatherMap'
+			visible: weatherService.value === 'OpenWeatherMap'
 			Label {
 				text: i18n("API App Id:")
 			}

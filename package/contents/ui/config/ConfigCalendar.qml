@@ -19,7 +19,7 @@ ConfigPage {
 			label: i18n("Click Date:")
 			RadioButton {
 				text: i18n("Scroll to event in Agenda")
-				exclusiveGroup: clickDateGroup.exclusiveGroup
+				ButtonGroup.group: clickDateGroup.exclusiveGroup
 				checked: true
 			}
 		}
@@ -123,7 +123,7 @@ ConfigPage {
 			label: i18n("Selected:")
 			RadioButton {
 				text: i18n("Solid Color (Highlight)")
-				exclusiveGroup: selectedStyleGroup.exclusiveGroup
+				ButtonGroup.group: selectedStyleGroup.exclusiveGroup
 				checked: true
 			}
 		}

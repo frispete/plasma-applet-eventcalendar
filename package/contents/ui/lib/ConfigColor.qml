@@ -1,10 +1,9 @@
-// Version 5
+// Version 6
 
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import QtQuick.Window
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
 
@@ -19,7 +18,7 @@ RowLayout {
 	property alias label: label.text
 	property alias labelColor: label.color
 	property alias horizontalAlignment: label.horizontalAlignment
-	property alias showAlphaChannel: dialog.showAlphaChannel
+	property bool showAlphaChannel: true
 	property color buttonOutlineColor: {
 		if (valueColor.r + valueColor.g + valueColor.b > 0.5) {
 			return "#BB000000" // Black outline
@@ -32,7 +31,7 @@ RowLayout {
 	property ColorDialog dialog: dialog
 
 	property string configKey: ''
-	property string defaultColor: ''
+	property var defaultColor: '' // color or string
 	property string value: {
 		if (configKey) {
 			return Plasmoid.configuration[configKey]
@@ -92,7 +91,7 @@ RowLayout {
 
 	TextField {
 		id: textField
-		placeholderText: defaultColor ? defaultColor : "#AARRGGBB"
+		placeholderText: defaultColor ? '' + defaultColor : "#AARRGGBB"
 		Layout.fillWidth: label.horizontalAlignment == Text.AlignLeft
 		onTextChanged: {
 			// Make sure the text is:
@@ -108,15 +107,10 @@ RowLayout {
 
 	ColorDialog {
 		id: dialog
-		visible: false
 		modality: Qt.WindowModal
 		title: configColor.label
-		showAlphaChannel: true
-		color: configColor.valueColor
-		onCurrentColorChanged: {
-			if (visible && color != currentColor) {
-				configColor.value = currentColor
-			}
-		}
+		options: configColor.showAlphaChannel ? ColorDialog.ShowAlphaChannel : 0
+		selectedColor: configColor.valueColor
+		onAccepted: configColor.value = selectedColor
 	}
 }

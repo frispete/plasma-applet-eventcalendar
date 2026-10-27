@@ -68,7 +68,7 @@ PinchArea {
 
 	property QtObject calendarBackend: calendarBackend
 
-	onPinchStarted: function(pinch) { stack.currentItem.transformOrigin = pinch.center }
+	onPinchStarted: function(pinch) { stack.currentItem.scaleOrigin = pinch.center }
 	onPinchUpdated: function(pinch) {
 		var item = stack.currentItem
 		if (stack.depth < 3 && pinch.scale < 1) {

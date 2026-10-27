@@ -60,10 +60,10 @@
 			<default>RunCommands</default>
 		</entry>
 		<entry name="clockMouseWheelUp" type="string">
-			<default>qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"</default>
+			<default>qdbus6 org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"</default>
 		</entry>
 		<entry name="clockMouseWheelDown" type="string">
-			<default>qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"</default>
+			<default>qdbus6 org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"</default>
 		</entry>
 		<entry name="showOutlines" type="bool">
 			<default>true</default>

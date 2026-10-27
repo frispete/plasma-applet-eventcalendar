@@ -1,13 +1,11 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 import org.kde.plasma.plasmoid
 
 import ".."
 import "../lib"
-import "../lib/Requests.js" as Requests
 
 ConfigPage {
 	id: page
@@ -25,7 +23,7 @@ ConfigPage {
 	property int indentWidth: 24
 
 	function setMouseWheelCommands(up, down) {
-		Plasmoid.configuration.clockMouseWheel == 'RunCommands'
+		Plasmoid.configuration.clockMouseWheel = 'RunCommands'
 		clockMousewheelGroupRunCommands.checked = true
 		Plasmoid.configuration.clockMouseWheelUp = up
 		Plasmoid.configuration.clockMouseWheelDown = down
@@ -80,7 +78,7 @@ ConfigPage {
 		}
 
 		LinkText {
-			text: '<a href="https://doc.qt.io/qt-5/qml-qtqml-qt.html#formatDateTime-method">' + i18n("Time Format Documentation") + '</a>'
+			text: '<a href="https://doc.qt.io/qt-6/qml-qtqml-qt.html#formatDateTime-method">' + i18n("Time Format Documentation") + '</a>'
 		}
 
 		Label {
@@ -275,12 +273,12 @@ ConfigPage {
 			level: 3
 		}
 		ConfigSection {
-			ExclusiveGroup { id: clockMousewheelGroup }
+			ButtonGroup { id: clockMousewheelGroup }
 
 			RadioButton {
 				id: clockMousewheelGroupRunCommands
 				text: i18n("Run Commands")
-				exclusiveGroup: clockMousewheelGroup
+				ButtonGroup.group: clockMousewheelGroup
 				checked: Plasmoid.configuration.clockMouseWheel == 'RunCommands'
 				onClicked: Plasmoid.configuration.clockMouseWheel = 'RunCommands'
 			}
@@ -308,7 +306,7 @@ ConfigPage {
 			}
 
 			RadioButton {
-				exclusiveGroup: clockMousewheelGroup
+				ButtonGroup.group: clockMousewheelGroup
 				checked: false
 				text: i18n("Volume (No UI) (amixer)")
 				property string upCommand:   'amixer -q sset Master 10%+'
@@ -317,11 +315,11 @@ ConfigPage {
 			}
 			
 			RadioButton {
-				exclusiveGroup: clockMousewheelGroup
+				ButtonGroup.group: clockMousewheelGroup
 				checked: false
-				text: i18n("Volume (UI) (qdbus)")
-				property string upCommand:   'qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"'
-				property string downCommand: 'qdbus org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"'
+				text: i18n("Volume (UI) (qdbus6)")
+				property string upCommand:   'qdbus6 org.kde.kglobalaccel /component/kmix invokeShortcut "increase_volume"'
+				property string downCommand: 'qdbus6 org.kde.kglobalaccel /component/kmix invokeShortcut "decrease_volume"'
 				onClicked: setMouseWheelCommands(upCommand, downCommand)
 			}
 		}
@@ -345,8 +343,7 @@ ConfigPage {
 	ConfigSection {
 		Label {
 			text: i18n("Debugging will log sensitive information to:")
-				+ '<br/><b>Kubuntu:</b> ~/.xsession-errors'
-				+ '<br/><b>Arch/Manjaro:</b> journalctl -b0 _COMM=plasmashell'
+				+ '<br/><b>journalctl --user -b _COMM=plasmashell</b>'
 			textFormat: Text.StyledText
 		}
 		ConfigCheckBox {

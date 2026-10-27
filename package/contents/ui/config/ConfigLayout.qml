@@ -16,10 +16,10 @@ ConfigPage {
 	}
 
 	//---
-	ExclusiveGroup { id: layoutGroup }
+	ButtonGroup { id: layoutGroup }
 	RadioButton {
 		text: i18n("Calendar to the left of the Agenda (Two Columns)")
-		exclusiveGroup: layoutGroup
+		ButtonGroup.group: layoutGroup
 		checked: Plasmoid.configuration.twoColumns
 		onClicked: Plasmoid.configuration.twoColumns = true
 		Layout.fillWidth: false
@@ -108,7 +108,7 @@ ConfigPage {
 	//---
 	RadioButton {
 		text: i18n("Agenda below the Calendar (Single Column)")
-		exclusiveGroup: layoutGroup
+		ButtonGroup.group: layoutGroup
 		checked: !Plasmoid.configuration.twoColumns
 		onClicked: Plasmoid.configuration.twoColumns = false
 		Layout.fillWidth: false

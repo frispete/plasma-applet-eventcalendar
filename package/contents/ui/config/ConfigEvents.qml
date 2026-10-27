@@ -13,14 +13,15 @@ ConfigPage {
 
 	HeaderText {
 		text: i18n("Event Calendar Plugins")
+		visible: Plasmoid.configuration.debugging
 	}
 
 	ConfigSection {
+		visible: Plasmoid.configuration.debugging
 		CheckBox {
 			text: i18n("ICalendar (.ics)")
 			checked: true
 			enabled: false
-			visible: Plasmoid.configuration.debugging
 		}
 	}
 
@@ -29,28 +30,33 @@ ConfigPage {
 		text: i18n("Plasma Calendar Plugins")
 	}
 
+	Label {
+		Layout.fillWidth: true
+		wrapMode: Text.Wrap
+		text: i18n("Enable the calendar events (PIM) plugin to show calendars from KOrganizer/Akonadi, eg: Google Calendar. Choose the calendars on its settings page, which appears in the sidebar once the plugin is enabled.")
+	}
+
 	// From digitalclock's configCalendar.qml
-	signal configurationChanged()
+	PlasmaCalendar.EventPluginsManager {
+		id: eventPluginsManager
+		Component.onCompleted: populateEnabledPluginsList(PlasmaCalendarUtils.toPluginIdList(Plasmoid.configuration.enabledCalendarPlugins))
+	}
 	ConfigSection {
 		Repeater {
 			id: calendarPluginsRepeater
-			model: PlasmaCalendar.EventPluginsManager.model
+			model: eventPluginsManager.model
 			delegate: CheckBox {
 				text: model.display
 				checked: model.checked
 				onClicked: {
 					model.checked = checked // needed for model's setData to be called
-					// page.configurationChanged()
 					page.saveConfig()
 				}
 			}
 		}
 	}
 	function saveConfig() {
-		Plasmoid.configuration.enabledCalendarPlugins = PlasmaCalendarUtils.pluginPathToFilenameList(PlasmaCalendar.EventPluginsManager.enabledPlugins)
-	}
-	Component.onCompleted: {
-		PlasmaCalendarUtils.populateEnabledPluginsByFilename(PlasmaCalendar.EventPluginsManager, Plasmoid.configuration.enabledCalendarPlugins)
+		Plasmoid.configuration.enabledCalendarPlugins = eventPluginsManager.enabledPlugins
 	}
 
 	HeaderText {

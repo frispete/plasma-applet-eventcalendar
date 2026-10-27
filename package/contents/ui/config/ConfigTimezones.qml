@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import org.kde.kcmutils as KCM
 import org.kde.plasma.private.digitalclock as DigitalClock
 import org.kde.plasma.plasmoid
 
@@ -9,7 +10,7 @@ import ".."
 import "../lib"
 
 // Mostly copied from digitalclock
-ColumnLayout { // ConfigPage creates a binding loop when a child uses fillHeight
+KCM.ScrollViewKCM {
 	id: page
 
 	function digitalclock_i18n(message) {
@@ -23,80 +24,51 @@ ColumnLayout { // ConfigPage creates a binding loop when a child uses fillHeight
 		onSelectedTimeZonesChanged: Plasmoid.configuration.selectedTimeZones = selectedTimeZones
 	}
 
-	MessageWidget {
-		id: messageWidget
+	header: ColumnLayout {
+		MessageWidget {
+			id: messageWidget
+			Layout.fillWidth: true
+		}
+
+		TextField {
+			id: filter
+			Layout.fillWidth: true
+			placeholderText: digitalclock_i18n("Search Time Zones")
+		}
 	}
 
-	TextField {
-		id: filter
-		Layout.fillWidth: true
-		placeholderText: digitalclock_i18n("Search Time Zones")
-	}
-
-	TableView {
+	view: ListView {
 		id: timeZoneView
-		Layout.fillWidth: true
-		Layout.fillHeight: true
-
-		signal toggleCurrent
-
-		Keys.onSpacePressed: toggleCurrent()
+		clip: true
 
 		model: DigitalClock.TimeZoneFilterProxy {
 			sourceModel: timeZoneModel
 			filterString: filter.text
 		}
 
-		TableViewColumn {
-			role: "city"
-			title: digitalclock_i18n("City")
-		}
-		TableViewColumn {
-			role: "region"
-			title: digitalclock_i18n("Region")
-		}
-		TableViewColumn {
-			role: "comment"
-			title: digitalclock_i18n("Comment")
-		}
-		TableViewColumn {
-			role: "checked"
-			title: i18n("Tooltip")
-			delegate: CheckBox {
-				id: checkBox
-				anchors.centerIn: parent
-				checked: styleData.value
-				activeFocusOnTab: false // only let the TableView as a whole get focus
-
-				function setValue(checked) {
-					if (!checked && model.region == "Local") {
-						messageWidget.warn(i18n("Cannot deselect Local time from the tooltip"))
-					} else {
-						model.checked = checked // needed for model's setData to be called
-					}
-					checkBox.checked = Qt.binding(function(){ return styleData.value })
-				}
-
-				onClicked: checkBox.setValue(checked)
-
-				Connections {
-					target: timeZoneView
-					function onToggleCurrent() {
-						if (styleData.row === timeZoneView.currentRow) {
-							checkBox.setValue(!checkBox.checked)
-						}
-					}
-				}
+		delegate: CheckDelegate {
+			id: timeZoneDelegate
+			width: ListView.view.width
+			text: {
+				var name = model.region ? i18nc("city, region", "%1, %2", model.city, model.region) : model.city
+				return model.comment ? i18nc("time zone name (comment)", "%1 (%2)", name, model.comment) : name
 			}
+			checked: model.checked
 
-			resizable: false
-			movable: false
+			onToggled: {
+				if (!checked && model.region == "Local") {
+					messageWidget.warn(i18n("Cannot deselect Local time from the tooltip"))
+				} else {
+					model.checked = checked // needed for model's setData to be called
+				}
+				checked = Qt.binding(function() { return model.checked })
+			}
 		}
 	}
 
+	footer: RowLayout {
+		ButtonGroup { id: timezoneDisplayType }
 
-	ExclusiveGroup { id: timezoneDisplayType }
-	RowLayout {
 		Label {
 			text: digitalclock_i18n("Display time zone as:")
 		}
@@ -104,7 +76,7 @@ ColumnLayout { // ConfigPage creates a binding loop when a child uses fillHeight
 		RadioButton {
 			id: timezoneCityRadio
 			text: digitalclock_i18n("Time zone city")
-			exclusiveGroup: timezoneDisplayType
+			ButtonGroup.group: timezoneDisplayType
 			checked: !Plasmoid.configuration.displayTimezoneAsCode
 			onClicked: Plasmoid.configuration.displayTimezoneAsCode = false
 		}
@@ -112,7 +84,7 @@ ColumnLayout { // ConfigPage creates a binding loop when a child uses fillHeight
 		RadioButton {
 			id: timezoneCodeRadio
 			text: digitalclock_i18n("Time zone code")
-			exclusiveGroup: timezoneDisplayType
+			ButtonGroup.group: timezoneDisplayType
 			checked: Plasmoid.configuration.displayTimezoneAsCode
 			onClicked: Plasmoid.configuration.displayTimezoneAsCode = true
 		}

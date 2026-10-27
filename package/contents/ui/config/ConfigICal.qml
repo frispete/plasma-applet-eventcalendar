@@ -1,20 +1,16 @@
+import QtCore
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
 
-import org.kde.kcoreaddons as KCoreAddons
-
 import ".."
 import "../lib"
+import "../Shared.js" as Shared
 
 ConfigPage {
 	id: page
-
-	KCoreAddons.KUser {
-		id: kuser
-	}
 
 	Base64JsonListModel {
 		id: calendarsModel
@@ -31,7 +27,8 @@ ConfigPage {
 		}
 
 		function addNewCalendar() {
-			var dirPath = '/home/' + kuser.loginName + '/.local/share/plasma_org.kde.plasma.eventcalendar'
+			var dataPath = Shared.urlToPath(StandardPaths.writableLocation(StandardPaths.GenericDataLocation))
+			var dirPath = dataPath + '/plasma_org.kde.plasma.eventcalendar'
 			var icsPath = dirPath + '/calendar.ics'
 			addItem({
 				url: icsPath,
@@ -73,7 +70,6 @@ ConfigPage {
 					Layout.preferredWidth: height
 					Layout.alignment: Qt.AlignTop
 					checked: show
-					style: CheckBoxStyle {}
 
 					onClicked: {
 						calendarsModel.setProperty(index, 'show', checked)
@@ -117,8 +113,8 @@ ConfigPage {
 
 								nameFilters: [ i18n("iCalendar (*.ics)") ]
 
-								onFileUrlChanged: {
-									calendarUrlField.text = fileUrl
+								onAccepted: {
+									calendarUrlField.text = Shared.urlToPath(selectedFile)
 								}
 							}
 						}

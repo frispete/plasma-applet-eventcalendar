@@ -1,9 +1,7 @@
 import QtQuick
-import QtQuick.Dialogs
 import QtQuick.Layouts
 import QtQuick.Controls
 import org.kde.kirigami as Kirigami
-import org.kde.kitemmodels as KItemModels
 import org.kde.plasma.plasmoid
 
 import ".."
@@ -14,8 +12,12 @@ Dialog {
 	id: chooseCityDialog
 	title: i18n("Select city")
 
-	width: 500
-	height: 600
+	parent: Overlay.overlay
+	anchors.centerIn: parent
+	width: Math.min(Kirigami.Units.gridUnit * 30, parent ? parent.width : Kirigami.Units.gridUnit * 30)
+	height: Math.min(Kirigami.Units.gridUnit * 30, parent ? parent.height : Kirigami.Units.gridUnit * 30)
+	modal: true
+	standardButtons: Dialog.Ok | Dialog.Cancel
 	property bool loadingCityList: false
 
 	Logger {
@@ -24,41 +26,16 @@ Dialog {
 	}
 
 	ListModel { id: cityListModel }
-	KItemModels.KSortFilterProxyModel {
-		id: filteredCityListModel
-		// sourceModel: cityListModel // Link after populating cityListModel so the UI doesn't freeze.
-		filterRole: 'name'
-		sortRole: 'name'
-		sortCaseSensitivity: Qt.CaseInsensitive 
-	}
 
 	property string selectedCityId: ''
-	Connections {
-		target: tableView.selection
-		
-		function onSelectionChanged() {
-			tableView.selection.forEach(function(row) {
-				var city = filteredCityListModel.get(row)
-				chooseCityDialog.selectedCityId = city.id
-				// console.log('selectedCityId', city.id, city.name)
-			})
-		}
-	}
-	Connections {
-		target: filteredCityListModel
-		
-		function onFilterRegExpChanged() {
-			tableView.selection.clear()
-			chooseCityDialog.selectedCityId = ''
-		}
-	}
+
+	onOpened: cityNameInput.forceActiveFocus()
 
 	Timer {
 		id: debouceApplyFilter
 		interval: 1000
 		onTriggered: chooseCityDialog.applyCityListSearch()
 	}
-
 
 	ColumnLayout {
 		anchors.fill: parent
@@ -72,44 +49,55 @@ Dialog {
 			placeholderText: i18n("Search")
 			onTextChanged: debouceApplyFilter.restart()
 		}
-		TableView {
-			id: tableView
+		ScrollView {
 			Layout.fillWidth: true
 			Layout.fillHeight: true
-			Layout.minimumHeight: 200
-			model: filteredCityListModel
+			Layout.minimumHeight: Kirigami.Units.gridUnit * 10
 
-			TableViewColumn {
-				width: 240
-				role: 'name'
-				title: i18n("Name")
-			}
-			TableViewColumn {
-				width: 100
-				role: 'id'
-				title: i18n("Id")
-			}
-			TableViewColumn {
-				width: 100
-				role: 'id'
-				title: i18n("City Webpage")
-				delegate: LinkText {
-					text: '<a href="https://openweathermap.org/city/' + styleData.value + '">' + i18n("Open Link") + '</a>'
-					linkColor: styleData.selected ? Kirigami.Theme.textColor : Kirigami.Theme.highlightColor
+			ListView {
+				id: cityListView
+				clip: true
+				model: cityListModel
+				currentIndex: -1
+
+				delegate: ItemDelegate {
+					id: cityDelegate
+					width: ListView.view.width
+					highlighted: ListView.isCurrentItem
+					onClicked: {
+						cityListView.currentIndex = index
+						chooseCityDialog.selectedCityId = model.id
+					}
+					onDoubleClicked: chooseCityDialog.accept()
+
+					contentItem: RowLayout {
+						Label {
+							Layout.fillWidth: true
+							text: model.name
+							elide: Text.ElideRight
+						}
+						Label {
+							text: model.id
+							opacity: 0.7
+						}
+						LinkText {
+							text: '<a href="https://openweathermap.org/city/' + model.id + '">' + i18n("Open Link") + '</a>'
+						}
+					}
 				}
-			}
 
-			BusyIndicator {
-				anchors.centerIn: parent
-				running: visible
-				visible: chooseCityDialog.loadingCityList
+				BusyIndicator {
+					anchors.centerIn: parent
+					running: visible
+					visible: chooseCityDialog.loadingCityList
+				}
 			}
 		}
 	}
 
 	function clearCityList() {
-		// clear list so that each append() doesn't rebuild the UI
-		filteredCityListModel.sourceModel = null
+		cityListView.currentIndex = -1
+		chooseCityDialog.selectedCityId = ''
 		cityListModel.clear()
 	}
 
@@ -137,15 +125,13 @@ Dialog {
 				appId: Plasmoid.configuration.openWeatherMapAppId,
 				q: q,
 			}, function(err, data, xhr) {
+				chooseCityDialog.loadingCityList = false
 				if (err) return console.log('searchCityList.err', err, xhr && xhr.status, data)
 				logger.debug('searchCityList.response')
 				logger.debugJSON('searchCityList.response', data)
 
 				parseCityList(data)
 
-				// link after populating so that each append() doesn't attempt to rebuild the UI.
-				filteredCityListModel.sourceModel = cityListModel
-				
 				chooseCityDialog.loadingCityList = false
 			})
 		}

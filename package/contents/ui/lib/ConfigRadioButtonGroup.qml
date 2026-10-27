@@ -1,4 +1,4 @@
-// Version 4
+// Version 5
 
 import QtQuick
 import QtQuick.Controls
@@ -24,7 +24,7 @@ RowLayout {
 	default property alias _contentChildren: content.data
 	property alias label: label.text
 
-	property var exclusiveGroup: ExclusiveGroup { id: radioButtonGroup }
+	property ButtonGroup exclusiveGroup: ButtonGroup { id: radioButtonGroup }
 
 	property string configKey: ''
 	readonly property var configValue: configKey ? Plasmoid.configuration[configKey] : ""
@@ -47,7 +47,7 @@ RowLayout {
 				enabled: typeof modelData.enabled !== "undefined" ? modelData.enabled : true
 				text: modelData.text
 				checked: modelData.value === configValue
-				exclusiveGroup: radioButtonGroup
+				ButtonGroup.group: radioButtonGroup
 				onClicked: {
 					focus = true
 					if (configKey) {
