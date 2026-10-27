@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Version: 7
 
 # This script will convert the *.po files to *.mo files, rebuilding the package/contents/locale folder.
@@ -6,8 +6,14 @@
 # Eg: contents/locale/fr_CA/LC_MESSAGES/plasma_applet_org.kde.plasma.eventcalendar.mo
 
 DIR=`cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd`
-plasmoidName=`kreadconfig5 --file="$DIR/../metadata.desktop" --group="Desktop Entry" --key="X-KDE-PluginInfo-Name"`
-website=`kreadconfig5 --file="$DIR/../metadata.desktop" --group="Desktop Entry" --key="X-KDE-PluginInfo-Website"`
+cd "$DIR"
+metadataValue() {
+	python3 -c 'import json, sys; v = json.load(open(sys.argv[1], encoding="utf-8"))
+for k in sys.argv[2].split("."): v = v[k]
+print(v)' "$DIR/../metadata.json" "$1"
+}
+plasmoidName=`metadataValue KPlugin.Id`
+website=`metadataValue KPlugin.Website`
 bugAddress="$website"
 packageRoot="${DIR}/.." # Root of translatable sources
 projectName="plasma_applet_${plasmoidName}" # project name
@@ -40,9 +46,8 @@ fi
 
 if [ -z "$(which msgfmt)" ]; then
 	echoRed "[translate/build] Error: msgfmt command not found. Need to install gettext"
-	echoRed "[translate/build] Running ${TC_Bold}'sudo apt install gettext'"
-	sudo apt install gettext
-	echoRed "[translate/build] gettext installation should be finished. Going back to installing translations."
+	echoRed "[translate/build] Install it with: ${TC_Bold}sudo zypper install gettext-tools"
+	exit 1
 fi
 
 #---
@@ -71,8 +76,7 @@ echoGreen "[translate/build] Done building messages"
 
 if [ "$1" = "--restartplasma" ]; then
 	echo "[translate/build] ${TC_Bold}Restarting plasmashell${TC_Reset}"
-	killall plasmashell
-	kstart5 plasmashell
+	systemctl --user restart plasma-plasmashell.service
 	echo "[translate/build] Done restarting plasmashell"
 else
 	echo "[translate/build] (re)install the plasmoid and restart plasmashell to test translations."

@@ -1,10 +1,7 @@
-> Version 7 of Zren's i18n scripts.
+> Based on version 7 of Zren's i18n scripts, adapted for Plasma 6.
 
-With KDE Frameworks v5.37 and above, translations are bundled with the `*.plasmoid` file downloaded from the store.
-
-## Install Translations
-
-Go to `~/.local/share/plasma/plasmoids/org.kde.plasma.eventcalendar/translate/` and run `sh ./build --restartplasma`.
+Translations are compiled into `contents/locale/` and bundled with the `*.plasmoid` file.
+The `Name`/`Description` translations in `metadata.json` are maintained by hand.
 
 ## New Translations
 
@@ -16,9 +13,9 @@ Or if you know how to make a pull request
 
 ## Scripts
 
-* `sh ./merge` will parse the `i18n()` calls in the `*.qml` files and write it to the `template.pot` file. Then it will merge any changes into the `*.po` language files.
-* `sh ./build` will convert the `*.po` files to it's binary `*.mo` version and move it to `contents/locale/...` which will bundle the translations in the `*.plasmoid` without needing the user to manually install them.
-* `sh ./plasmoidlocaletest` will run `./build` then `plasmoidviewer` (part of `plasma-sdk`).
+* `./merge` will parse the `i18n()` calls in the `*.qml` files and write it to the `template.pot` file. Then it will merge any changes into the `*.po` language files.
+* `./build` will convert the `*.po` files to it's binary `*.mo` version and move it to `contents/locale/...` which will bundle the translations in the `*.plasmoid` without needing the user to manually install them.
+* `./plasmoidlocaletest de` will run `./build` then `plasmoidviewer` (part of `plasma6-sdk`) in that locale.
 
 ## Links
 
