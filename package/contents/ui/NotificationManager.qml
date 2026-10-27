@@ -1,7 +1,8 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "./lib"
+import "Shared.js" as Shared
 
 QtObject {
 	id: notificationManager
@@ -14,7 +15,7 @@ QtObject {
 
 		var cmd = [
 			'python3',
-			plasmoid.file("", "scripts/notification.py"),
+			Shared.urlToPath(Qt.resolvedUrl("../scripts/notification.py")),
 		]
 		if (args.appName) {
 			cmd.push('--app-name', args.appName)

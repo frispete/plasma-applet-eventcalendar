@@ -1,7 +1,6 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.components as PlasmaComponents3
 
 import "Shared.js" as Shared
 import "LocaleFuncs.js" as LocaleFuncs
@@ -9,7 +8,7 @@ import "LocaleFuncs.js" as LocaleFuncs
 Item {
 	id: agendaView
 
-	readonly property int scrollbarWidth: width - agendaScrollView.contentWidth
+	readonly property int scrollbarWidth: agendaScrollView.effectiveScrollBarWidth
 
 	property color inProgressColor: appletConfig.agendaInProgressColor
 	property int inProgressFontWeight: Font.Bold
@@ -20,7 +19,7 @@ Item {
 
 	Connections {
 		target: eventModel
-		onEventCreated: {
+		function onEventCreated(calendarId, data) {
 			notificationManager.notify({
 				appName: i18n("Event Calendar"),
 				appIcon: "resource-calendar-insert",
@@ -32,7 +31,7 @@ Item {
 				})
 			})
 		}
-		onEventDeleted: {
+		function onEventDeleted(calendarId, eventId, data) {
 			logger.logJSON('AgendaView.onEventDeleted', data)
 			notificationManager.notify({
 				appName: i18n("Event Calendar"),
@@ -47,51 +46,51 @@ Item {
 		}
 	}
 
-	ScrollView {
+	PlasmaComponents3.ScrollView {
 		id: agendaScrollView
 		anchors.fill: parent
-		// clip: true
-		readonly property int contentWidth: contentItem ? contentItem.width : width
-		readonly property int contentHeight: contentItem ? contentItem.height : 0 // Warning: Binding loop
-		readonly property int viewportWidth: viewport ? viewport.width : width
-		readonly property int viewportHeight: viewport ? viewport.height : height
-		readonly property int scrollY: flickableItem ? flickableItem.contentY : 0
+		readonly property int scrollY: agendaFlickable.contentY
 
-		// onScrollYChanged: console.log('scrollY', scrollY)
+		Flickable {
+			id: agendaFlickable
+			contentWidth: width
+			contentHeight: agendaColumn.implicitHeight
+			clip: true
 
-		ColumnLayout {
-			id: agendaColumn
-			width: agendaScrollView.viewportWidth
-			spacing: appletConfig.agendaDaySpacing
+			ColumnLayout {
+				id: agendaColumn
+				width: agendaFlickable.width
+				spacing: appletConfig.agendaDaySpacing
 
-			Repeater {
-				id: agendaRepeater
+				Repeater {
+					id: agendaRepeater
 
-				property bool populated: false
-				// onPopulatedChanged: console.log(Date.now(), 'agendaRepeater.populated', populated)
-				model: root.agendaModel
-				delegate: AgendaListItem {
-					// visible: agendaRepeater.populated
-					width: parent.width
-					// onHeightChanged: {
-					// 	if (scrollToIndexTimer.running) {
-					// 		scrollToIndexTimer.updatePosition()
-					// 	}
-					// }
-					
-					// Component.onCompleted: console.log(Date.now(), 'AgendaListItem.onCompleted', index)
-					// Component.onDestruction: console.log(Date.now(), 'AgendaListItem.onDestruction', index)
-				}
-
-				onItemAdded: {
-					// console.log(Date.now(), 'agendaRepeater.itemAdded', index)
-					if (index === root.agendaModel.count-1) {
-						populated = true
+					property bool populated: false
+					// onPopulatedChanged: console.log(Date.now(), 'agendaRepeater.populated', populated)
+					model: root.agendaModel
+					delegate: AgendaListItem {
+						// visible: agendaRepeater.populated
+						width: parent.width
+						// onHeightChanged: {
+						// 	if (scrollToIndexTimer.running) {
+						// 		scrollToIndexTimer.updatePosition()
+						// 	}
+						// }
+						
+						// Component.onCompleted: console.log(Date.now(), 'AgendaListItem.onCompleted', index)
+						// Component.onDestruction: console.log(Date.now(), 'AgendaListItem.onDestruction', index)
 					}
-				}
-				onItemRemoved: {
-					// console.log(Date.now(), 'agendaRepeater.onItemRemoved', index)
-					populated = false
+
+					onItemAdded: function(index, item) {
+						// console.log(Date.now(), 'agendaRepeater.itemAdded', index)
+						if (index === root.agendaModel.count-1) {
+							populated = true
+						}
+					}
+					onItemRemoved: function(index, item) {
+						// console.log(Date.now(), 'agendaRepeater.onItemRemoved', index)
+						populated = false
+					}
 				}
 			}
 		}
@@ -134,12 +133,12 @@ Item {
 				}
 				return offsetY
 			} else { // index >= agendaRepeater.count
-				return agendaScrollView.contentHeight
+				return agendaFlickable.contentHeight
 			}
 		}
 
 		function scrollToY(offsetY) {
-			flickableItem.contentY = Math.min(offsetY, contentHeight-viewportHeight)
+			agendaFlickable.contentY = Math.max(0, Math.min(offsetY, agendaFlickable.contentHeight - agendaFlickable.height))
 		}
 
 		function positionViewAtBeginning() {
@@ -159,7 +158,7 @@ Item {
 		}
 
 		function positionViewAtEnd() {
-			scrollToY(contentHeight)
+			scrollToY(agendaFlickable.contentHeight)
 		}
 	}
 

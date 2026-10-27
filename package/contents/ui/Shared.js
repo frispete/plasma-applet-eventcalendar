@@ -1,5 +1,10 @@
 .pragma library
 
+// Qt.resolvedUrl() gives a file:// url, the scripts we run need a local path.
+function urlToPath(url) {
+	return decodeURIComponent(('' + url).replace(/^file:\/\//, ''))
+}
+
 function isSameDate(a, b) {
 	// console.log('isSameDate', a, b)
 	return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()

@@ -1,6 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.plasmoid
 
 import "../lib"
 
@@ -51,7 +52,7 @@ ConfigPage {
 				placeholderText: i18nc("calendar title format for current month", "MMMM d, yyyy")
 			}
 			Label {
-				text: Qt.formatDateTime(new Date(), monthCurrentCustomTitleFormat.value)
+				text: (new Date()).toLocaleString(Qt.locale(), monthCurrentCustomTitleFormat.value)
 			}
 		}
 
@@ -89,9 +90,9 @@ ConfigPage {
 					}
 
 					// The firstDayOfWeek enum starts at -1 instead of 0
-					currentIndex = plasmoid.configuration.firstDayOfWeek + 1
+					currentIndex = Plasmoid.configuration.firstDayOfWeek + 1
 					currentIndexChanged.connect(function(){
-						plasmoid.configuration.firstDayOfWeek = currentIndex - 1
+						Plasmoid.configuration.firstDayOfWeek = currentIndex - 1
 					})
 				}
 			}

@@ -1,7 +1,8 @@
-import QtQuick 2.0
+import QtQuick
 
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.calendar 2.0 as PlasmaCalendar
+import org.kde.plasma.workspace.calendar as PlasmaCalendar
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
 
 import "../lib"
 import "../Shared.js" as Shared
@@ -13,7 +14,7 @@ CalendarManager {
 	calendarManagerId: "plasma"
 
 	property var executable: ExecUtil { id: executable }
-	property var calendarModel: Qt.createQmlObject("import org.kde.plasma.PimCalendars 1.0; PimCalendarsModel {}", plasmaCalendarManager)
+	property var calendarModel: Qt.createQmlObject("import org.kde.plasma.PimCalendars; PimCalendarsModel {}", plasmaCalendarManager)
 	function appendPimCalendars(calendarList) {
 		// https://github.com/KDE/kdepim-addons/blob/master/plugins/plasma/pimeventsplugin/PimEventsConfig.qml
 		// https://github.com/KDE/kdepim-addons/blob/master/plugins/plasma/pimeventsplugin/pimcalendarsmodel.cpp
@@ -71,7 +72,7 @@ CalendarManager {
 		// KHolidays
 		calendarList.push({
 			"calendarId": "plasma_Holidays",
-			"backgroundColor": "" + theme.highlightColor,
+			"backgroundColor": "" + Kirigami.Theme.highlightColor,
 			"accessRole": "reader",
 		})
 
@@ -81,58 +82,57 @@ CalendarManager {
 		return calendarList
 	}
 
-	// https://github.com/KDE/plasma-framework/blob/master/src/declarativeimports/calendar/eventpluginsmanager.cpp
-	// Plugins are located at:
-	//     * (Ubuntu) /usr/lib/x86_64-linux-gnu/qt5/plugins/plasmacalendarplugins/
-	//     * (Arch) /usr/lib/qt/plugins/plasmacalendarplugins/
-	// DigitalClock's config in ~/.config/plasma-____-appletsrc is:
-	//   enabledCalendarPlugins=/usr/lib/.../plugins/plasmacalendarplugins/holidaysevents.so
+	// Plugins are located in /usr/lib64/qt6/plugins/plasmacalendarplugins/
 	// Holidays stores the region in:
 	//   ~/.config/plasma_calendar_holiday_regions
 	//     [General]
 	//     selectedRegions=us_en-us,ru_ru
 
-	// PlasmaCalendar.EventPluginsManager.model is EventPluginsManager::pluginsModel()
-	// Which is only useful for the config to select the plugins.
-	// We need EventPluginsManager::plugins() to iterate the plugins, but it isn't exposed to QML.
-	// So we need to use PlasmaCalendar.Calendar which has a DaysModel property that has a function
-	// to get a list of events for a specific day.
-
-	Component.onCompleted: {
-		PlasmaCalendarUtils.setEnabledPluginsByFilename(PlasmaCalendar.EventPluginsManager, plasmoid.configuration.enabledCalendarPlugins)
-	}
-	Connections {
-		target: plasmoid.configuration
-		onEnabledCalendarPluginsChanged: {
-			PlasmaCalendarUtils.setEnabledPluginsByFilename(PlasmaCalendar.EventPluginsManager, plasmoid.configuration.enabledCalendarPlugins)
-		}
+	// EventPluginsManager does not expose the loaded plugins to QML, so we use
+	// PlasmaCalendar.Calendar, whose DaysModel can list the events of a day.
+	PlasmaCalendar.EventPluginsManager {
+		id: eventPluginsManager
+		enabledPlugins: PlasmaCalendarUtils.toPluginIdList(Plasmoid.configuration.enabledCalendarPlugins)
 	}
 
-	// From: kdeclarative/.../MonthView.qml
+	// From: plasma-workspace/.../calendar/MonthView.qml
 	PlasmaCalendar.Calendar {
 		id: calendarBackend
 
 		days: 7
 		weeks: 6
 		firstDayOfWeek: {
-			if (plasmoid.configuration.firstDayOfWeek == -1) {
+			if (Plasmoid.configuration.firstDayOfWeek == -1) {
 				return Qt.locale().firstDayOfWeek
 			} else {
-				return plasmoid.configuration.firstDayOfWeek
+				return Plasmoid.configuration.firstDayOfWeek
 			}
 		}
 		today: timeModel.currentTime
 
 		Component.onCompleted: {
-			//daysModel.connect
-			daysModel.setPluginsManager(PlasmaCalendar.EventPluginsManager)
+			daysModel.setPluginsManager(eventPluginsManager)
 		}
 	}
 
-	readonly property string translatedHolidaysType: i18ndc("libplasma5", "Agenda listview section title", "Holidays")
-	readonly property string translatedEventsType: i18ndc("libplasma5", "Agenda listview section title", "Events")
-	readonly property string translatedTodoType: i18ndc("libplasma5", "Agenda listview section title", "Todo")
-	readonly property string translatedOtherType: i18ndc("libplasma5", "Means 'Other calendar items'", "Other")
+	// Plugins (eg: PIM events from Akonadi) load their data asynchronously
+	// after the displayed month changes, so fetch again once it arrives.
+	Connections {
+		target: calendarBackend.daysModel
+		function onAgendaUpdated(updatedDate) {
+			agendaUpdatedTimer.restart()
+		}
+	}
+	Timer {
+		id: agendaUpdatedTimer
+		interval: 500
+		onTriggered: plasmaCalendarManager.refresh()
+	}
+
+	readonly property string translatedHolidaysType: i18ndc("plasmashellprivateplugin", "Agenda listview section title", "Holidays")
+	readonly property string translatedEventsType: i18ndc("plasmashellprivateplugin", "Agenda listview section title", "Events")
+	readonly property string translatedTodoType: i18ndc("plasmashellprivateplugin", "Agenda listview section title", "Todo")
+	readonly property string translatedOtherType: i18ndc("plasmashellprivateplugin", "Means 'Other calendar items'", "Other")
 	function parseCalendarId(dayItem) {
 		// dayItem.eventType is translated, but is the only way to tell which plugin it belongs to without
 		// creating a seperate PlasmaCalendar.EventPluginsManager for each plugin (assuming it's not a singleton).
@@ -183,7 +183,7 @@ CalendarManager {
 			var calendarId = parseCalendarId(dayItem)
 			var eventId = calendarId + "_" + startDateTime.getTime() + "_" + endDateTime.getTime()
 
-			var eventColor = dayItem.eventColor || theme.highlightColor
+			var eventColor = dayItem.eventColor || Kirigami.Theme.highlightColor
 			eventColor = "" + eventColor // Cast to string, as dayItem.eventColor is a QColor which JSON treats as an object
 
 			var event = {
@@ -308,7 +308,7 @@ CalendarManager {
 		}
 	}
 
-	onCalendarParsing: {
+	onCalendarParsing: function(calendarId, data) {
 		var calendar = getCalendar(calendarId)
 		parseEventList(calendar, data.items)
 	}

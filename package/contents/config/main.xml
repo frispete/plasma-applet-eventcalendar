@@ -83,8 +83,7 @@
 		<entry name="rightColumnWidth" type="uint">
 			<default>400</default>
 		</entry>
-		<!-- Deprecated in: v72 -->
-		<entry name="v72Migration" type="bool">
+		<entry name="v77Migration" type="bool">
 			<default>false</default>
 		</entry>
 	</group>
@@ -211,13 +210,8 @@
 			<default>/usr/share/sounds/Oxygen-Im-Nudge.ogg</default>
 		</entry>
 		<entry name="enabledCalendarPlugins" type="StringList">
-			<!-- Filenames stored in: -->
-			<!-- Ubuntu: /usr/lib/x86_64-linux-gnu/qt5/plugins/plasmacalendarplugins/ -->
-			<!-- Arch: /usr/lib/qt/plugins/plasmacalendarplugins/ -->
-			<!-- Fedora: /usr/lib64/qt5/plugins/plasmacalendarplugins/ -->
-			<!-- Previously stored entire filepath before v72 migration -->
-			<label>A list of plugins where additional calendar event data can be sourced.</label>
-			<default>holidaysevents.so</default>
+			<label>Plugin ids of the Plasma calendar plugins where additional event data is sourced from.</label>
+			<default>holidaysevents</default>
 		</entry>
 	</group>
 

@@ -1,8 +1,10 @@
-import QtQuick 2.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.2
-import QtQuick.Controls 1.4
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import QtQuick.Controls
+import org.kde.kirigami as Kirigami
+import org.kde.kitemmodels as KItemModels
+import org.kde.plasma.plasmoid
 
 import ".."
 import "../lib"
@@ -18,11 +20,11 @@ Dialog {
 
 	Logger {
 		id: logger
-		showDebug: plasmoid.configuration.debugging
+		showDebug: Plasmoid.configuration.debugging
 	}
 
 	ListModel { id: cityListModel }
-	PlasmaCore.SortFilterModel {
+	KItemModels.KSortFilterProxyModel {
 		id: filteredCityListModel
 		// sourceModel: cityListModel // Link after populating cityListModel so the UI doesn't freeze.
 		filterRole: 'name'
@@ -34,7 +36,7 @@ Dialog {
 	Connections {
 		target: tableView.selection
 		
-		onSelectionChanged: {
+		function onSelectionChanged() {
 			tableView.selection.forEach(function(row) {
 				var city = filteredCityListModel.get(row)
 				chooseCityDialog.selectedCityId = city.id
@@ -45,7 +47,7 @@ Dialog {
 	Connections {
 		target: filteredCityListModel
 		
-		onFilterRegExpChanged: {
+		function onFilterRegExpChanged() {
 			tableView.selection.clear()
 			chooseCityDialog.selectedCityId = ''
 		}
@@ -93,7 +95,7 @@ Dialog {
 				title: i18n("City Webpage")
 				delegate: LinkText {
 					text: '<a href="https://openweathermap.org/city/' + styleData.value + '">' + i18n("Open Link") + '</a>'
-					linkColor: styleData.selected ? theme.textColor : theme.highlightColor
+					linkColor: styleData.selected ? Kirigami.Theme.textColor : Kirigami.Theme.highlightColor
 				}
 			}
 
@@ -132,7 +134,7 @@ Dialog {
 		if (q) {
 			chooseCityDialog.loadingCityList = true
 			fetchCityList({
-				appId: plasmoid.configuration.openWeatherMapAppId,
+				appId: Plasmoid.configuration.openWeatherMapAppId,
 				q: q,
 			}, function(err, data, xhr) {
 				if (err) return console.log('searchCityList.err', err, xhr && xhr.status, data)

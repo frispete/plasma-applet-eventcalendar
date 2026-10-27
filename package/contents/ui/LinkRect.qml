@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.plasma.core as PlasmaCore
 
 import "lib"
 
@@ -15,7 +15,6 @@ Rectangle {
 	property string tooltipMainText
 	property string tooltipSubText
 	property alias acceptedButtons: mouseArea.acceptedButtons
-	property bool enabled: true
 	readonly property alias hovered: mouseArea.containsMouse
 
 	signal clicked(var mouse)
@@ -36,7 +35,7 @@ Rectangle {
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 			cursorShape: linkRect.enabled && containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
 			enabled: linkRect.enabled
-			onClicked: {
+			onClicked: function(mouse) {
 				mouse.accepted = false
 				linkRect.clicked(mouse)
 				if (!mouse.accepted) {
@@ -48,12 +47,12 @@ Rectangle {
 					}
 				}
 			}
-			onDoubleClicked: linkRect.doubleClicked(mouse)
+			onDoubleClicked: function(mouse) { linkRect.doubleClicked(mouse) }
 		}
 	}
 
 	ContextMenu {
 		id: contextMenu
-		onPopulate: linkRect.loadContextMenu(contextMenu)
+		onPopulate: function(contextMenu) { linkRect.loadContextMenu(contextMenu) }
 	}
 }

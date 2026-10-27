@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import org.kde.plasma.components 2.0 as PlasmaComponents
+import QtQuick
+import org.kde.plasma.extras as PlasmaExtras
 
-PlasmaComponents.MenuItem {
+PlasmaExtras.MenuItem {
 	property var subMenu: undefined
 }

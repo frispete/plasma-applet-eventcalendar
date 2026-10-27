@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "Shared.js" as Shared
 
@@ -149,7 +150,7 @@ ListModel {
 
 		for (var i = 0; i < data.items.length; i++) {
 			var eventItem = data.items[i]
-			if (plasmoid.configuration.agendaBreakupMultiDayEvents) {
+			if (Plasmoid.configuration.agendaBreakupMultiDayEvents) {
 				// for Max(start, visibleMin) .. Min(end, visibleMax)
 				var lowerLimitDate = (agendaModel.clipEventsOutsideLimits && eventItem.startDateTime < agendaModel.visibleDateMin
 					? agendaModel.visibleDateMin

@@ -1,7 +1,8 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "../lib"
+import "../Shared.js" as Shared
 
 CalendarManager {
 	id: icalManager
@@ -30,8 +31,8 @@ CalendarManager {
 
 	function fetchEvents(calendarData, startTime, endTime, callback) {
 		logger.debug('ical.fetchEvents', calendarData.url)
-		var cmd = 'python3 ' + plasmoid.file("", "scripts/icsjson.py")
-		cmd += ' --url "' + calendarData.url + '"' // TODO proper argument wrapping
+		var cmd = 'python3 ' + executable.wrapToken(Shared.urlToPath(Qt.resolvedUrl("../../scripts/icsjson.py")))
+		cmd += ' --url ' + executable.wrapToken(calendarData.url)
 		cmd += ' query'
 		cmd += ' ' + startTime.getFullYear() + '-' + (startTime.getMonth()+1) + '-' + startTime.getDate()
 		cmd += ' ' + endTime.getFullYear() + '-' + (endTime.getMonth()+1) + '-' + endTime.getDate()
@@ -63,7 +64,7 @@ CalendarManager {
 		}
 	}
 
-	onCalendarParsing: {
+	onCalendarParsing: function(calendarId, data) {
 		var calendar = getCalendar(calendarId)
 		parseEventList(calendar, data.items)
 	}

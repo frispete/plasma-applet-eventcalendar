@@ -1,5 +1,5 @@
-import QtQuick 2.4
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import QtQuick
+import org.kde.plasma.components as PlasmaComponents3
 
 Item {
 	id: timeFormatSizeHelper
@@ -43,10 +43,10 @@ Item {
 	function updateMinWidth() {
 		var now = new Date(timeModel.currentTime)
 		var date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 1, 0, 0)
-		var timeAm = Qt.formatDateTime(date, widestTimeFormat)
+		var timeAm = date.toLocaleString(Qt.locale(), widestTimeFormat)
 		var advanceWidthAm = fontMetrics.advanceWidth(timeAm)
 		date.setHours(13)
-		var timePm = Qt.formatDateTime(date, widestTimeFormat)
+		var timePm = date.toLocaleString(Qt.locale(), widestTimeFormat)
 		var advanceWidthPm = fontMetrics.advanceWidth(timePm)
 
 		if (advanceWidthAm > advanceWidthPm) {
@@ -73,16 +73,16 @@ Item {
 
 	Connections {
 		target: clock
-		onWidthChanged: timeFormatSizeHelper.updateMinWidth()
-		onHeightChanged: timeFormatSizeHelper.updateMinWidth()
+		function onWidthChanged() { timeFormatSizeHelper.updateMinWidth() }
+		function onHeightChanged() { timeFormatSizeHelper.updateMinWidth() }
 	}
 	Connections {
 		target: timeLabel
-		onHeightChanged: timeFormatSizeHelper.updateMinWidth()
-		onTimeFormatChanged: timeFormatSizeHelper.updateMinWidth()
+		function onHeightChanged() { timeFormatSizeHelper.updateMinWidth() }
+		function onTimeFormatChanged() { timeFormatSizeHelper.updateMinWidth() }
 	}
 	Connections {
 		target: timeModel
-		onDateChanged: timeFormatSizeHelper.updateMinWidth()
+		function onDateChanged() { timeFormatSizeHelper.updateMinWidth() }
 	}
 }

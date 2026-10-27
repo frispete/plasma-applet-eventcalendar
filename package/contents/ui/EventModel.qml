@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "./calendars"
 
@@ -108,8 +109,8 @@ CalendarManager {
 
 	//--- CalendarManager: Event
 	function createEvent(calendarId, date, text) {
-		if (plasmoid.configuration.agendaNewEventRememberCalendar) {
-			plasmoid.configuration.agendaNewEventLastCalendarId = calendarId
+		if (Plasmoid.configuration.agendaNewEventRememberCalendar) {
+			Plasmoid.configuration.agendaNewEventLastCalendarId = calendarId
 		}
 
 		var calendarManager = getCalendarManager(calendarId)

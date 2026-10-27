@@ -1,9 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.0
-import QtQuick.Dialogs 1.0
-import QtQuick.Layouts 1.0
-import org.kde.kirigami 2.0 as Kirigami
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
 
 import ".."
 import "../lib"
@@ -21,14 +21,14 @@ ConfigPage {
 	property string timeFormat24hour: 'hh:mm'
 	property string timeFormat12hour: 'h:mm AP'
 
-	property bool showDebug: plasmoid.configuration.debugging
-	property int indentWidth: 24 * Kirigami.Units.devicePixelRatio
+	property bool showDebug: Plasmoid.configuration.debugging
+	property int indentWidth: 24
 
 	function setMouseWheelCommands(up, down) {
-		plasmoid.configuration.clockMouseWheel == 'RunCommands'
+		Plasmoid.configuration.clockMouseWheel == 'RunCommands'
 		clockMousewheelGroupRunCommands.checked = true
-		plasmoid.configuration.clockMouseWheelUp = up
-		plasmoid.configuration.clockMouseWheelDown = down
+		Plasmoid.configuration.clockMouseWheelUp = up
+		Plasmoid.configuration.clockMouseWheelDown = down
 	}
 
 
@@ -133,7 +133,7 @@ ConfigPage {
 					placeholderText: localeTimeFormat
 				}
 				Label {
-					text: Qt.formatDateTime(new Date(), line1TimeFormat)
+					text: (new Date()).toLocaleString(Qt.locale(), line1TimeFormat)
 				}
 			}
 
@@ -144,21 +144,21 @@ ConfigPage {
 					text: i18n("Preset:")
 				}
 				Button {
-					text: Qt.formatDateTime(new Date(), timeFormat12hour)
+					text: (new Date()).toLocaleString(Qt.locale(), timeFormat12hour)
 					onClicked: clockTimeFormat.value = timeFormat12hour
 				}
 				Button {
-					text: Qt.formatDateTime(new Date(), timeFormat24hour)
+					text: (new Date()).toLocaleString(Qt.locale(), timeFormat24hour)
 					onClicked: clockTimeFormat.value = timeFormat24hour
 				}
 				Button {
 					property string dateFormat: Qt.locale().timeFormat(Locale.ShortFormat).replace('mm', 'mm:ss')
-					text: Qt.formatDateTime(new Date(), dateFormat)
+					text: (new Date()).toLocaleString(Qt.locale(), dateFormat)
 					onClicked: clockTimeFormat.value = dateFormat
 				}
 				Button {
 					property string dateFormat: 'MMM d, ' + Qt.locale().timeFormat(Locale.ShortFormat)
-					text: Qt.formatDateTime(new Date(), dateFormat)
+					text: (new Date()).toLocaleString(Qt.locale(), dateFormat)
 					onClicked: clockTimeFormat.value = dateFormat
 				}
 			}
@@ -172,12 +172,12 @@ ConfigPage {
 				}
 				ColorTextButton {
 					property string dateFormat: '\'<font color="#3daee9">\'MMM d\'</font>\' ' + Qt.locale().timeFormat(Locale.ShortFormat)
-					label: Qt.formatDateTime(new Date(), dateFormat.replace())
+					label: (new Date()).toLocaleString(Qt.locale(), dateFormat.replace())
 					onClicked: clockTimeFormat.value = dateFormat
 				}
 				ColorTextButton {
 					property string dateFormat: '\'<font color="#888">\'ddd<>d\'</font>\' h:mm\'<font color="#888">\'AP\'</font>\''
-					label: Qt.formatDateTime(new Date(), dateFormat.replace())
+					label: (new Date()).toLocaleString(Qt.locale(), dateFormat.replace())
 					onClicked: clockTimeFormat.value = dateFormat
 				}
 			}
@@ -205,7 +205,7 @@ ConfigPage {
 					placeholderText: localeDateFormat
 				}
 				Label {
-					text: Qt.formatDateTime(new Date(), line2TimeFormat)
+					text: (new Date()).toLocaleString(Qt.locale(), line2TimeFormat)
 				}
 			}
 
@@ -226,17 +226,17 @@ ConfigPage {
 						format = format.replace(/(^dddd.?\s)|(,?\sdddd$)/, "")
 						return format
 					}
-					text: Qt.formatDate(new Date(), dateFormat)
+					text: (new Date()).toLocaleDateString(Qt.locale(), dateFormat)
 					onClicked: clockTimeFormat2.value = dateFormat
 				}
 				Button {
 					property string dateFormat: Qt.locale().dateFormat(Locale.ShortFormat)
-					text: Qt.formatDate(new Date(), dateFormat)
+					text: (new Date()).toLocaleDateString(Qt.locale(), dateFormat)
 					onClicked: clockTimeFormat2.value = dateFormat
 				}
 				Button {
 					property string dateFormat: 'MMM d'
-					text: Qt.formatDateTime(new Date(), dateFormat)
+					text: (new Date()).toLocaleString(Qt.locale(), dateFormat)
 					onClicked: clockTimeFormat2.value = dateFormat
 				}
 				Button {
@@ -281,8 +281,8 @@ ConfigPage {
 				id: clockMousewheelGroupRunCommands
 				text: i18n("Run Commands")
 				exclusiveGroup: clockMousewheelGroup
-				checked: plasmoid.configuration.clockMouseWheel == 'RunCommands'
-				onClicked: plasmoid.configuration.clockMouseWheel = 'RunCommands'
+				checked: Plasmoid.configuration.clockMouseWheel == 'RunCommands'
+				onClicked: Plasmoid.configuration.clockMouseWheel = 'RunCommands'
 			}
 			RowLayout {
 				Layout.fillWidth: true

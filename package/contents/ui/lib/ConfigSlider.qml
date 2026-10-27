@@ -1,8 +1,9 @@
 // Version 2
 
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.plasmoid
 
 RowLayout {
 	id: configSlider
@@ -29,8 +30,8 @@ RowLayout {
 		id: slider
 		Layout.fillWidth: configSlider.Layout.fillWidth
 
-		value: plasmoid.configuration[configKey]
-		// onValueChanged: plasmoid.configuration[configKey] = value
+		value: Plasmoid.configuration[configKey]
+		// onValueChanged: Plasmoid.configuration[configKey] = value
 		onValueChanged: serializeTimer.start()
 		maximumValue: 2147483647
 	}
@@ -44,6 +45,6 @@ RowLayout {
 	Timer { // throttle
 		id: serializeTimer
 		interval: 300
-		onTriggered: plasmoid.configuration[configKey] = value
+		onTriggered: Plasmoid.configuration[configKey] = value
 	}
 }

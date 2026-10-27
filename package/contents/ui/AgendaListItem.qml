@@ -1,8 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
 
 import "Shared.js" as Shared
 import "./weather/WeatherApi.js" as WeatherApi
@@ -21,16 +22,16 @@ GridLayout {
 	Component.onCompleted: agendaListItem.checkIfToday()
 	Connections {
 		target: timeModel
-		onLoaded: agendaListItem.checkIfToday()
-		onDateChanged: agendaListItem.checkIfToday()
+		function onLoaded() { agendaListItem.checkIfToday() }
+		function onDateChanged() { agendaListItem.checkIfToday() }
 	}
 	property bool agendaItemInProgress: agendaItemIsToday
-	property bool weatherOnRight: plasmoid.configuration.agendaWeatherOnRight
+	property bool weatherOnRight: Plasmoid.configuration.agendaWeatherOnRight
 	property alias eventsRepeater: eventsRepeater
 
 	Connections {
 		target: agendaModel
-		onPopulatingChanged: {
+		function onPopulatingChanged() {
 			if (!agendaModel.populating) {
 				agendaListItem.reset()
 			}
@@ -69,19 +70,19 @@ GridLayout {
 			anchors.horizontalCenter: parent.horizontalCenter
 
 			FontIcon {
-				visible: showWeather && plasmoid.configuration.agendaWeatherShowIcon
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				visible: showWeather && Plasmoid.configuration.agendaWeatherShowIcon
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				source: weatherIcon
 				height: appletConfig.agendaWeatherIconSize
-				showOutline: plasmoid.configuration.showOutlines
+				showOutline: Plasmoid.configuration.showOutlines
 				Layout.fillWidth: true
 			}
 
 			PlasmaComponents3.Label {
 				id: itemWeatherText
-				visible: showWeather && plasmoid.configuration.agendaWeatherShowText
+				visible: showWeather && Plasmoid.configuration.agendaWeatherShowText
 				text: weatherText
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -97,7 +98,7 @@ GridLayout {
 					var low = isNaN(model.tempLow) ? '?' : model.tempLow + '°'
 					return high + ' | ' + low
 				}
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -113,7 +114,7 @@ GridLayout {
 			// console.log('agendaItem.date.clicked', date)
 			if (true) {
 				// agenda_weather_clicked == "browser_viewcityforecast"
-				WeatherApi.openCityUrl(plasmoid.configuration)
+				WeatherApi.openCityUrl(Plasmoid.configuration)
 			}
 		}
 	}
@@ -136,8 +137,8 @@ GridLayout {
 
 			PlasmaComponents3.Label {
 				id: itemDate
-				text: Qt.formatDateTime(date, i18nc("agenda date format line 1", "MMM d"))
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				text: date.toLocaleString(Qt.locale(), i18nc("agenda date format line 1", "MMM d"))
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -148,8 +149,8 @@ GridLayout {
 
 			PlasmaComponents3.Label {
 				id: itemDay
-				text: Qt.formatDateTime(date, i18nc("agenda date format line 2", "ddd"))
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				text: date.toLocaleString(Qt.locale(), i18nc("agenda date format line 2", "ddd"))
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.5
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize

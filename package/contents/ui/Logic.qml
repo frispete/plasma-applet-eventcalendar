@@ -1,10 +1,10 @@
-import QtQuick 2.0
-import org.kde.plasma.plasmoid 2.0 // root.Plasmoid.___
+import QtQuick
+import org.kde.plasma.plasmoid
 import "./ErrorType.js" as ErrorType
 import "./weather/WeatherApi.js" as WeatherApi
 
 Item {
-	readonly property Item popup: root.Plasmoid.fullRepresentationItem
+	readonly property Item popup: root.fullRepresentationItem
 
 	//--- Weather
 	property var dailyWeatherData: { "list": [] }
@@ -26,7 +26,7 @@ Item {
 		
 		repeat: true
 		triggeredOnStart: true
-		interval: plasmoid.configuration.eventsPollInterval * 60000
+		interval: Plasmoid.configuration.eventsPollInterval * 60000
 		onTriggered: logic.update()
 	}
 
@@ -65,7 +65,7 @@ Item {
 
 	//--- Weather
 	function updateWeather(force) {
-		if (WeatherApi.weatherIsSetup(plasmoid.configuration)) {
+		if (WeatherApi.weatherIsSetup(Plasmoid.configuration)) {
 			// update every hour
 			var shouldUpdate = false
 			if (lastForecastAt) {
@@ -130,7 +130,7 @@ Item {
 
 	function updateDailyWeather() {
 		logger.debug('updateDailyWeather', lastForecastAt, Date.now())
-		WeatherApi.updateDailyWeather(plasmoid.configuration, function(err, data, xhr) {
+		WeatherApi.updateDailyWeather(Plasmoid.configuration, function(err, data, xhr) {
 			if (err) return handleWeatherError('updateDailyWeather', err, data, xhr)
 			logger.debugJSON('updateDailyWeather.response', data)
 
@@ -143,7 +143,7 @@ Item {
 
 	function updateHourlyWeather() {
 		logger.debug('updateHourlyWeather', lastForecastAt, Date.now())
-		WeatherApi.updateHourlyWeather(plasmoid.configuration, function(err, data, xhr) {
+		WeatherApi.updateHourlyWeather(Plasmoid.configuration, function(err, data, xhr) {
 			if (err) return handleWeatherError('updateHourlyWeather', err, data, xhr)
 			logger.debugJSON('updateHourlyWeather.response', data)
 
@@ -157,31 +157,31 @@ Item {
 
 	//---
 	Connections {
-		target: plasmoid.configuration
+		target: Plasmoid.configuration
 
 		//--- Events
-		onEnabledCalendarPluginsChanged: logic.updateEvents()
+		function onEnabledCalendarPluginsChanged() { logic.updateEvents() }
 
 		//--- Weather
-		onWeatherServiceChanged: logic.resetWeatherAndUpdate()
-		onOpenWeatherMapAppIdChanged: logic.resetWeatherAndUpdate()
-		onOpenWeatherMapCityIdChanged: logic.resetWeatherAndUpdate()
-		onWeatherUnitsChanged: logic.updateWeather(true)
-		onWidgetShowMeteogramChanged: {
-			if (plasmoid.configuration.widgetShowMeteogram) {
+		function onWeatherServiceChanged() { logic.resetWeatherAndUpdate() }
+		function onOpenWeatherMapAppIdChanged() { logic.resetWeatherAndUpdate() }
+		function onOpenWeatherMapCityIdChanged() { logic.resetWeatherAndUpdate() }
+		function onWeatherUnitsChanged() { logic.updateWeather(true) }
+		function onWidgetShowMeteogramChanged() {
+			if (Plasmoid.configuration.widgetShowMeteogram) {
 				logic.updateHourlyWeather()
 			}
 		}
 
 		//--- UI
-		onAgendaBreakupMultiDayEventsChanged: popup.updateUI()
-		onMeteogramHoursChanged: popup.updateMeteogram()
+		function onAgendaBreakupMultiDayEventsChanged() { popup.updateUI() }
+		function onMeteogramHoursChanged() { popup.updateMeteogram() }
 	}
 
 	//---
 	Connections {
 		target: appletConfig
-		onClock24hChanged: popup.updateUI()
+		function onClock24hChanged() { popup.updateUI() }
 	}
 
 	//---
@@ -193,7 +193,7 @@ Item {
 	}
 	Connections {
 		target: eventModel
-		onError: {
+		function onError(msg, errorType) {
 			logic.currentErrorMessage = msg
 			logic.currentErrorType = errorType
 			if (popup) popup.showError(logic.currentErrorMessage)
@@ -203,24 +203,24 @@ Item {
 	//---
 	Connections {
 		target: eventModel
-		onCalendarFetched: {
+		function onCalendarFetched(calendarId, data) {
 			logger.debug('onCalendarFetched', calendarId)
 			// logger.debug('onCalendarFetched', calendarId, JSON.stringify(data, null, '\t'))
 			if (popup) popup.deferredUpdateUI()
 		}
-		onAllDataFetched: {
+		function onAllDataFetched() {
 			logger.debug('onAllDataFetched')
 			if (popup) popup.deferredUpdateUI()
 		}
-		onEventCreated: {
+		function onEventCreated(calendarId, data) {
 			logger.logJSON('onEventCreated', calendarId, data)
 			if (popup) popup.deferredUpdateUI()
 		}
-		onEventUpdated: {
+		function onEventUpdated(calendarId, eventId, data) {
 			logger.logJSON('onEventUpdated', calendarId, eventId, data)
 			if (popup) popup.deferredUpdateUI()
 		}
-		onEventDeleted: {
+		function onEventDeleted(calendarId, eventId, data) {
 			logger.logJSON('onEventDeleted', calendarId, eventId, data)
 			if (popup) popup.deferredUpdateUI()
 		}
@@ -229,7 +229,7 @@ Item {
 	//---
 	Connections {
 		target: networkMonitor
-		onIsConnectedChanged: {
+		function onIsConnectedChanged() {
 			if (networkMonitor.isConnected) {
 				if (logic.currentErrorType == ErrorType.NetworkError) {
 					logic.clearError()
