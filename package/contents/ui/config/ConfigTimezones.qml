@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 
@@ -12,6 +13,23 @@ import "../lib"
 // Mostly copied from digitalclock
 KCM.ScrollViewKCM {
 	id: page
+
+	// Lets the settings dialog enable Apply and undo changes on Cancel/Discard.
+	// Older dialogs (and plasmoidviewer) only know the configurationChanged signal.
+	property alias unsavedChanges: configTransaction.unsavedChanges
+	signal configurationChanged()
+	function saveConfig() {
+		configTransaction.save()
+	}
+	property ConfigTransaction configTransaction: ConfigTransaction {
+		id: configTransaction
+		window: page.Window.window
+		onUnsavedChangesChanged: {
+			if (unsavedChanges) {
+				page.configurationChanged()
+			}
+		}
+	}
 
 	function digitalclock_i18n(message) {
 		return i18nd("plasma_applet_org.kde.plasma.digitalclock", message)

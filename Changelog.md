@@ -14,6 +14,9 @@ Port to Qt 6 / Plasma 6 (no longer supports Plasma 5).
   right (as in the screenshot), now the default. The old layout is still
   available in Layout settings.
 * Event badges default to colored bars below the day.
+* Settings dialog: changes enable the Apply button again, and Cancel/Discard
+  undo them (changes are still previewed live).
+* The sound preview buttons in the settings play the sound again.
 * Dates in the agenda and month view are localized again.
 * Show the OpenWeatherMap API key setting outside of debug mode.
 * Mouse wheel volume presets use qdbus6.

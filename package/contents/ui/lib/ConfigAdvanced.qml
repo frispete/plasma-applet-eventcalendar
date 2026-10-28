@@ -1,6 +1,7 @@
 // Version 7
 
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import org.kde.kirigami as Kirigami
@@ -9,6 +10,23 @@ import org.kde.plasma.plasmoid
 
 KCM.ScrollViewKCM {
 	id: page
+
+	// Lets the settings dialog enable Apply and undo changes on Cancel/Discard.
+	// Older dialogs (and plasmoidviewer) only know the configurationChanged signal.
+	property alias unsavedChanges: configTransaction.unsavedChanges
+	signal configurationChanged()
+	function saveConfig() {
+		configTransaction.save()
+	}
+	property ConfigTransaction configTransaction: ConfigTransaction {
+		id: configTransaction
+		window: page.Window.window
+		onUnsavedChangesChanged: {
+			if (unsavedChanges) {
+				page.configurationChanged()
+			}
+		}
+	}
 
 	view: ListView {
 		id: configTable
