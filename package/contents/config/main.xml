@@ -113,7 +113,7 @@
 			<default>AgendaNewEvent</default>
 		</entry>
 		<entry name="monthEventBadgeType" type="string">
-			<default>theme</default>
+			<default>bottomBar</default>
 		</entry>
 		<entry name="monthTodayStyle" type="string">
 			<default>theme</default>
@@ -135,6 +135,10 @@
 
 	<group name="Agenda">
 		<entry name="twoColumns" type="bool">
+			<default>true</default>
+		</entry>
+		<entry name="agendaLeftOfCalendar" type="bool">
+			<label>In the two column layout, show the agenda on the left (below the meteogram) and the calendar on the right (below the timer).</label>
 			<default>true</default>
 		</entry>
 		<entry name="agendaWeatherOnRight" type="bool">
