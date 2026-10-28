@@ -10,6 +10,10 @@ Port to Qt 6 / Plasma 6 (no longer supports Plasma 5).
 * Network detection checks for a default route, so it works with
   NetworkManager, wicked and others.
 * The day double click action can open the agenda's new event form.
+* New two column layout with the agenda on the left and the calendar on the
+  right (as in the screenshot), now the default. The old layout is still
+  available in Layout settings.
+* Event badges default to colored bars below the day.
 * Dates in the agenda and month view are localized again.
 * Show the OpenWeatherMap API key setting outside of debug mode.
 * Mouse wheel volume presets use qdbus6.

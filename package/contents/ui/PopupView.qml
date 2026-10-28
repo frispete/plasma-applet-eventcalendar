@@ -25,12 +25,15 @@ MouseArea {
 	// DigitalClock RightColumn minWidth: Kirigami.Units.gridUnit * 14
 	// 14/(22+14) * 400 = 156
 	// rightColumnWidth=156 looks nice but is very thin for listing events + date + weather.
-	property int leftColumnWidth: Plasmoid.configuration.leftColumnWidth // Meteogram + MonthView
-	property int rightColumnWidth: Plasmoid.configuration.rightColumnWidth // TimerView + AgendaView
+	property int leftColumnWidth: Plasmoid.configuration.leftColumnWidth // Meteogram + AgendaView/MonthView
+	property int rightColumnWidth: Plasmoid.configuration.rightColumnWidth // TimerView + MonthView/AgendaView
 
 	property bool singleColumn: !showAgenda || !showCalendar
 	property bool singleColumnFullHeight: !Plasmoid.configuration.twoColumns && showAgenda && showCalendar
 	property bool twoColumns: Plasmoid.configuration.twoColumns && showAgenda && showCalendar
+	property bool agendaOnLeft: twoColumns && Plasmoid.configuration.agendaLeftOfCalendar
+	readonly property int agendaColumn: agendaOnLeft ? 0 : 1
+	readonly property int calendarColumn: agendaOnLeft ? 1 : 0
 
 	Layout.minimumWidth: {
 		if (twoColumns) {
@@ -140,6 +143,14 @@ MouseArea {
 				columns: 2
 				rows: 1
 			}
+			PropertyChanges { target: monthView
+				Layout.row: 0
+				Layout.column: popup.calendarColumn
+			}
+			PropertyChanges { target: agendaView
+				Layout.row: 0
+				Layout.column: popup.agendaColumn
+			}
 		},
 		State {
 			name: "twoColumns+meteogram+agenda+month"
@@ -150,7 +161,17 @@ MouseArea {
 				rows: 2
 			}
 			PropertyChanges { target: meteogramView
+				Layout.row: 0
+				Layout.column: 0
 				Layout.columnSpan: 2
+			}
+			PropertyChanges { target: monthView
+				Layout.row: 1
+				Layout.column: popup.calendarColumn
+			}
+			PropertyChanges { target: agendaView
+				Layout.row: 1
+				Layout.column: popup.agendaColumn
 			}
 		},
 		State {
@@ -161,22 +182,19 @@ MouseArea {
 				columns: 2
 				rows: 2
 			}
-			AnchorChanges { target: timerView
-				anchors.top: widgetGrid.top
-				anchors.left: widgetGrid.left
-			}
-			AnchorChanges { target: monthView
-				anchors.top: timerView.bottom
-				anchors.left: widgetGrid.left
-				anchors.bottom: widgetGrid.bottom
+			// The timer sits above the calendar, the agenda uses the full height.
+			PropertyChanges { target: timerView
+				Layout.row: 0
+				Layout.column: popup.calendarColumn
 			}
 			PropertyChanges { target: monthView
-				anchors.topMargin: widgetGrid.rowSpacing
+				Layout.row: 1
+				Layout.column: popup.calendarColumn
 			}
-			AnchorChanges { target: agendaView
-				anchors.top: widgetGrid.top
-				anchors.right: widgetGrid.right
-				anchors.bottom: widgetGrid.bottom
+			PropertyChanges { target: agendaView
+				Layout.row: 0
+				Layout.column: popup.agendaColumn
+				Layout.rowSpan: 2
 			}
 		},
 		State {
@@ -186,6 +204,22 @@ MouseArea {
 			PropertyChanges { target: widgetGrid
 				columns: 2
 				rows: 2
+			}
+			PropertyChanges { target: meteogramView
+				Layout.row: 0
+				Layout.column: 0
+			}
+			PropertyChanges { target: timerView
+				Layout.row: 0
+				Layout.column: 1
+			}
+			PropertyChanges { target: monthView
+				Layout.row: 1
+				Layout.column: popup.calendarColumn
+			}
+			PropertyChanges { target: agendaView
+				Layout.row: 1
+				Layout.column: popup.agendaColumn
 			}
 		},
 		State {
@@ -304,7 +338,7 @@ MouseArea {
 			showWeekNumbers: Plasmoid.configuration.monthShowWeekNumbers
 			highlightCurrentDayWeek: Plasmoid.configuration.monthHighlightCurrentDayWeek
 
-			Layout.preferredWidth: popup.leftColumnWidth
+			Layout.preferredWidth: popup.agendaOnLeft ? popup.rightColumnWidth : popup.leftColumnWidth
 			Layout.preferredHeight: popup.bottomRowHeight
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -371,7 +405,7 @@ MouseArea {
 			id: agendaView
 			visible: showAgenda
 
-			Layout.preferredWidth: popup.rightColumnWidth
+			Layout.preferredWidth: popup.agendaOnLeft ? popup.leftColumnWidth : popup.rightColumnWidth
 			Layout.preferredHeight: popup.bottomRowHeight
 			Layout.fillWidth: true
 			Layout.fillHeight: true

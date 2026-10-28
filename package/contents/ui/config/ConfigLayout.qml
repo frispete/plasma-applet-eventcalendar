@@ -18,10 +18,24 @@ ConfigPage {
 	//---
 	ButtonGroup { id: layoutGroup }
 	RadioButton {
+		text: i18n("Agenda to the left of the Calendar (Two Columns)")
+		ButtonGroup.group: layoutGroup
+		checked: Plasmoid.configuration.twoColumns && Plasmoid.configuration.agendaLeftOfCalendar
+		onClicked: {
+			Plasmoid.configuration.twoColumns = true
+			Plasmoid.configuration.agendaLeftOfCalendar = true
+		}
+		Layout.fillWidth: false
+		Layout.alignment: Qt.AlignHCenter
+	}
+	RadioButton {
 		text: i18n("Calendar to the left of the Agenda (Two Columns)")
 		ButtonGroup.group: layoutGroup
-		checked: Plasmoid.configuration.twoColumns
-		onClicked: Plasmoid.configuration.twoColumns = true
+		checked: Plasmoid.configuration.twoColumns && !Plasmoid.configuration.agendaLeftOfCalendar
+		onClicked: {
+			Plasmoid.configuration.twoColumns = true
+			Plasmoid.configuration.agendaLeftOfCalendar = false
+		}
 		Layout.fillWidth: false
 		Layout.alignment: Qt.AlignHCenter
 	}
@@ -86,7 +100,9 @@ ConfigPage {
 			Image {
 				id: twoColumnsImage
 				anchors.fill: parent
-				source: Qt.resolvedUrl("../../images/twocolumns.svg")
+				source: Plasmoid.configuration.agendaLeftOfCalendar
+					? Qt.resolvedUrl("../../images/twocolumns-agendaleft.svg")
+					: Qt.resolvedUrl("../../images/twocolumns.svg")
 				smooth: true
 				visible: false
 			}

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: eventcalendar\n"
 "Report-Msgid-Bugs-To: https://github.com/frispete/plasma-applet-"
 "eventcalendar\n"
-"POT-Creation-Date: 2026-10-27 17:41+0100\n"
+"POT-Creation-Date: 2026-10-28 16:10+0100\n"
 "PO-Revision-Date: 2021-07-29 01:08+0200\n"
 "Last-Translator: Ugo Ugowsky <ugowsky@gmail.com>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -504,6 +504,10 @@ msgstr "Brskaj"
 
 #: ../contents/ui/config/ConfigICal.qml
 msgid "iCalendar (*.ics)"
+msgstr ""
+
+#: ../contents/ui/config/ConfigLayout.qml
+msgid "Agenda to the left of the Calendar (Two Columns)"
 msgstr ""
 
 #: ../contents/ui/config/ConfigLayout.qml
