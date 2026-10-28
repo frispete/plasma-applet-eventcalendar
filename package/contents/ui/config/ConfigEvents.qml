@@ -50,12 +50,12 @@ ConfigPage {
 				checked: model.checked
 				onClicked: {
 					model.checked = checked // needed for model's setData to be called
-					page.saveConfig()
+					page.writeEnabledPlugins()
 				}
 			}
 		}
 	}
-	function saveConfig() {
+	function writeEnabledPlugins() {
 		Plasmoid.configuration.enabledCalendarPlugins = eventPluginsManager.enabledPlugins
 	}
 

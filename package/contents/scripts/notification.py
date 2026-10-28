@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import os, sys
+import os, sys, time
 import argparse
 import subprocess
 from enum import Enum, IntEnum
@@ -78,14 +78,25 @@ class Canberra:
 		)
 		if res != Canberra.Code.SUCCESS:
 			raise Exception(Canberra.Code(res), "Error playing", props)
+		return playId
+
+	def wait(self, playId, timeout=30):
+		# ca_context_play() returns immediately, the sound stops when the process exits.
+		playing = c_int(1)
+		end = time.monotonic() + timeout
+		while time.monotonic() < end:
+			time.sleep(0.1)
+			res = libcanberra.ca_context_playing(self.context, playId, byref(playing))
+			if res != Canberra.Code.SUCCESS or not playing.value:
+				break
 
 	def playEvent(self, eventId, *props):
 		props += (Canberra.Prop.EVENT_ID, eventId)
-		self.play(*props)
+		return self.play(*props)
 
 	def playFile(self, filename, *props):
 		props += (Canberra.Prop.MEDIA_FILENAME, filename)
-		self.play(*props)
+		return self.play(*props)
 
 
 #---
@@ -94,7 +105,7 @@ class Canberra:
 # play them with libcanberra. We can't use canberra-gtk-play since
 # it requires the gnome-session-canberra package in Ubuntu,
 # which is not installed by default.
-def playSound(args):
+def playSound(args, wait=False):
 	if not Canberra.installed():
 		sys.stderr.write('skipping playing sound\n')
 		return
@@ -109,9 +120,12 @@ def playSound(args):
 		args.sound = args.sound[len('file://'):]
 
 	if args.sound.startswith('/'):
-		canberra.playFile(args.sound, *props)
+		playId = canberra.playFile(args.sound, *props)
 	else:
-		canberra.playEvent(args.sound, *props)
+		playId = canberra.playEvent(args.sound, *props)
+
+	if wait:
+		canberra.wait(playId)
 
 
 	if args.loop:
@@ -165,8 +179,8 @@ def notify(args):
 
 def main():
 	parser = argparse.ArgumentParser(prog='notification.py', description='Notifications with sound effects and actions.')
-	parser.add_argument('summary')
-	parser.add_argument('message')
+	parser.add_argument('summary', nargs='?', default='')
+	parser.add_argument('message', nargs='?', default='')
 	parser.add_argument('--icon', default='')
 	parser.add_argument('--app-name', dest='appName', default='Event Calendar')
 	parser.add_argument('--sound')
@@ -174,11 +188,15 @@ def main():
 	parser.add_argument('--timeout', type=int, default=Notify.EXPIRES_DEFAULT)
 	parser.add_argument('--action', dest='actions', action='append')
 	parser.add_argument('--metadata')
-
+	parser.add_argument('--sound-only', dest='soundOnly', action='store_true', help='only play --sound (eg: to preview it) and wait until it ends')
 
 	try:
 		args = parser.parse_args()
-		notify(args)
+		if args.soundOnly:
+			if args.sound:
+				playSound(args, wait=True)
+		else:
+			notify(args)
 	except KeyboardInterrupt:
 		pass
 	except Exception as e:

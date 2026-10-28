@@ -1,9 +1,11 @@
-// Version 6
+// Version 7
 
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Dialogs
 import QtQuick.Layouts
+
+import "../Shared.js" as Shared
 
 RowLayout {
 	id: configSound
@@ -15,11 +17,30 @@ RowLayout {
 	property alias sfxPathValue: sfxPath.value
 	property alias sfxPathDefaultValue: sfxPath.defaultValue
 
-	// Importing QtMultimedia apparently segfaults both OpenSUSE and Kubuntu.
+	// Preview with the same script (libcanberra) that plays the notification sounds.
+	// Importing QtMultimedia used to segfault plasmashell, see
 	// https://github.com/Zren/plasma-applet-eventcalendar/issues/84
-	// https://github.com/Zren/plasma-applet-eventcalendar/issues/167
-	// property var sfxTest: Qt.createQmlObject("import QtMultimedia 5.4; Audio {}", configSound)
-	property var sfxTest: null
+	property bool sfxPlaying: false
+
+	ExecUtil {
+		id: executable
+	}
+
+	function playSfx() {
+		var cmd = [
+			'python3',
+			Shared.urlToPath(Qt.resolvedUrl("../../scripts/notification.py")),
+			'--sound-only',
+			'--sound', sfxPath.value,
+		]
+		sfxPlaying = true
+		executable.exec(cmd, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			sfxPlaying = false
+			if (stderr) {
+				console.log('[eventcalendar] ConfigSound.playSfx', stderr)
+			}
+		})
+	}
 
 	spacing: 0
 	ConfigCheckBox {
@@ -27,11 +48,8 @@ RowLayout {
 	}
 	Button {
 		icon.name: "media-playback-start-symbolic"
-		enabled: sfxEnabled && !!sfxTest
-		onClicked: {
-			sfxTest.source = sfxPath.value
-			sfxTest.play()
-		}
+		enabled: sfxEnabled && !!sfxPath.value && !sfxPlaying
+		onClicked: configSound.playSfx()
 	}
 	ConfigString {
 		id: sfxPath
