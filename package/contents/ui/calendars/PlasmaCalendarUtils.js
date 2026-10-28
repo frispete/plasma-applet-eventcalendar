@@ -8,11 +8,17 @@ function toPluginId(entry) {
 	return pluginId.replace(/\.so$/, '')
 }
 
+// Some broken ports treated the stored value as a string and saved its single
+// characters as list entries, so a string is split and one-letter entries,
+// which are never a valid plugin id, are dropped.
 function toPluginIdList(entryList) {
+	if (typeof entryList === 'string') {
+		entryList = entryList.split(',')
+	}
 	var pluginIdList = []
 	for (var i = 0; i < entryList.length; i++) {
-		var pluginId = toPluginId(entryList[i])
-		if (pluginIdList.indexOf(pluginId) == -1) {
+		var pluginId = toPluginId(String(entryList[i]).trim())
+		if (pluginId.length > 1 && pluginIdList.indexOf(pluginId) == -1) {
 			pluginIdList.push(pluginId)
 		}
 	}

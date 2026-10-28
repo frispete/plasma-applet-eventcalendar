@@ -20,6 +20,9 @@ QtObject {
 		if (!Plasmoid.configuration.v77Migration) {
 			var oldValue = Plasmoid.configuration.enabledCalendarPlugins
 			var newValue = PlasmaCalendarUtils.toPluginIdList(oldValue)
+			if (newValue.length == 0 && oldValue.length > 0) {
+				newValue = ['holidaysevents'] // Unusable value, use the default
+			}
 			Plasmoid.configuration.enabledCalendarPlugins = newValue
 			console.log('[eventcalendar:migrate] convert enabledCalendarPlugins (' + oldValue + ' => ' + newValue + ')')
 
