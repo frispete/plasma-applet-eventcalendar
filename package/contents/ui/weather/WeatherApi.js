@@ -1,15 +1,12 @@
 .pragma library
 
 .import "OpenWeatherMap.js" as OpenWeatherMap
-.import "WeatherCanada.js" as WeatherCanada
 
 /* How many hours each data point represents */
 function getDataPointDuration(config) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		return 3
-	} else if (weatherService == 'WeatherCanada') {
-		return 1
 	} else {
 		return 1
 	}
@@ -20,8 +17,6 @@ function getRainUnits(config) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		return 'mm'
-	} else if (weatherService == 'WeatherCanada') {
-		return '%'
 	} else {
 		return 'mm'
 	}
@@ -32,8 +27,6 @@ function openCityUrl(config) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		OpenWeatherMap.openOpenWeatherMapCityUrl(config.openWeatherMapCityId)
-	} else if (weatherService == 'WeatherCanada') {
-		Qt.openUrlExternally(WeatherCanada.getCityUrl(config.weatherCanadaCityId))
 	}
 }
 
@@ -66,8 +59,6 @@ function updateDailyWeather(config, callback) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		OpenWeatherMap.updateDailyWeather(config, callback)
-	} else if (weatherService == 'WeatherCanada') {
-		WeatherCanada.updateDailyWeather(config, callback)
 	}
 }
 
@@ -92,8 +83,6 @@ function updateHourlyWeather(config, callback) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		OpenWeatherMap.updateHourlyWeather(config, callback)
-	} else if (weatherService == 'WeatherCanada') {
-		WeatherCanada.updateHourlyWeather(config, callback)
 	}
 }
 
@@ -102,8 +91,6 @@ function weatherIsSetup(config) {
 	var weatherService = config.weatherService
 	if (weatherService == 'OpenWeatherMap') {
 		return OpenWeatherMap.weatherIsSetup(config)
-	} else if (weatherService == 'WeatherCanada') {
-		return WeatherCanada.weatherIsSetup(config)
 	} else {
 		return false
 	}

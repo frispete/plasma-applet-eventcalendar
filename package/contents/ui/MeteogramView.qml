@@ -1,5 +1,7 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.plasma.core as PlasmaCore
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
 
 import "Shared.js" as Shared
 import "./weather/WeatherApi.js" as WeatherApi
@@ -29,17 +31,17 @@ Item {
 
 	Rectangle {
 		visible: typeof root === 'undefined'
-		color: PlasmaCore.ColorScope.backgroundColor
+		color: Kirigami.Theme.backgroundColor
 		anchors.fill: parent
 	}
 
 	Connections {
 		target: appletConfig
-		onMeteogramTextColorChanged: graph.update()
-		onMeteogramScaleColorChanged: graph.update()
-		onMeteogramPositiveTempColorChanged: graph.update()
-		onMeteogramNegativeTempColorChanged: graph.update()
-		onMeteogramPrecipitationRawColorChanged: graph.update()
+		function onMeteogramTextColorChanged() { graph.update() }
+		function onMeteogramScaleColorChanged() { graph.update() }
+		function onMeteogramPositiveTempColorChanged() { graph.update() }
+		function onMeteogramNegativeTempColorChanged() { graph.update() }
+		function onMeteogramPrecipitationRawColorChanged() { graph.update() }
 	}
 
 	Item {
@@ -61,9 +63,9 @@ Item {
 		property string rainUnits: 'mm'
 
 		property double freezingPoint: {
-			if (plasmoid.configuration.weatherUnits === "kelvin") {
+			if (Plasmoid.configuration.weatherUnits === "kelvin") {
 				return 273.15 // https://en.wikipedia.org/wiki/Kelvin
-			} else if (plasmoid.configuration.weatherUnits === "imperial") {
+			} else if (Plasmoid.configuration.weatherUnits === "imperial") {
 				return 32 // https://en.wikipedia.org/wiki/Fahrenheit
 			} else { // "metric"
 				return 0

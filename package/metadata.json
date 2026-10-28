@@ -1,0 +1,47 @@
+{
+	"KPackageStructure": "Plasma/Applet",
+	"KPlugin": {
+		"Authors": [
+			{
+				"Email": "zrenfire@gmail.com",
+				"Name": "Chris Holland"
+			},
+			{
+				"Email": "hp@urpla.net",
+				"Name": "Hans-Peter Jansen"
+			}
+		],
+		"Category": "Date and Time",
+		"Description": "Calendar, agenda and weather forecast replacement for the digital clock.",
+		"Description[de]": "Kalender mit Agenda und Wettervorhersage als Ersatz für die Digitaluhr.",
+		"EnabledByDefault": true,
+		"Icon": "view-calendar",
+		"Id": "org.kde.plasma.eventcalendar",
+		"License": "GPL-2.0-or-later",
+		"Name": "Event Calendar",
+		"Name[da]": "Begivenhedskalender",
+		"Name[de]": "Ereigniskalender",
+		"Name[el]": "Ημερολόγιο Συμβάντων",
+		"Name[es]": "Calendario de Eventos",
+		"Name[fi]": "Tapahtumakalenteri",
+		"Name[fr]": "Calendrier des événements",
+		"Name[he]": "לוח שנה עם אירועים",
+		"Name[it]": "Calendario Eventi",
+		"Name[ja]": "イベントカレンダー",
+		"Name[ko]": "이벤트 달력",
+		"Name[nl]": "Afsprakenboek",
+		"Name[pt_BR]": "Calendário de eventos",
+		"Name[pt_PT]": "Calendário de eventos",
+		"Name[ru]": "Календарь событий",
+		"Name[sl]": "Koledar z dnevnim redom",
+		"Name[tr]": "Etkinlik Takvimi",
+		"Name[uk]": "Календар подій",
+		"Version": "77",
+		"Website": "https://github.com/frispete/plasma-applet-eventcalendar"
+	},
+	"X-Plasma-API-Minimum-Version": "6.0",
+	"X-Plasma-Provides": [
+		"org.kde.plasma.time",
+		"org.kde.plasma.date"
+	]
+}

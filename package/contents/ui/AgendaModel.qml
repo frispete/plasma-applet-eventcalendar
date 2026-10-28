@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "Shared.js" as Shared
 
@@ -66,7 +67,6 @@ ListModel {
 		return {
 			date: new Date(dateTime),
 			events: [],
-			tasks: [],
 			showWeather: false,
 			tempLow: 0,
 			tempHigh: 0,
@@ -131,66 +131,10 @@ ListModel {
 			agendaItem = buildAgendaItem(date)
 			agendaItemList.push(agendaItem)
 		}
-		if (eventItem.kind === 'tasks#task') {
-			agendaItem.tasks.push(eventItem)
-		} else {
-			agendaItem.events.push(eventItem)
-		}
+		agendaItem.events.push(eventItem)
 	}
 
-	function sortSubTasks(eventList) {
-		// Place subtasks below their parent task
-		for (var i = 0; i < eventList.length; i++) {
-			var eventItem = eventList[i]
-			// console.log('i', i, eventItem.summary)
-			if (eventItem.kind === 'tasks#task' && typeof eventItem.parent !== 'undefined') {
-				for (var j = 0; j < eventList.length; j++) {
-					var parentItem = eventList[j]
-					// console.log('  j', j, parentItem.summary)
-					if (parentItem.kind === 'tasks#task' && parentItem.id === eventItem.parent) {
-						var foundDestination = false
-						for (var k = j+1; k < eventList.length; k++) {
-							var childItem = eventList[k]
-							// console.log('    k', k, childItem.summary)
-							if (childItem.kind != 'tasks#task'
-								|| childItem.parent != parentItem.id
-								|| childItem.position > eventItem.position
-							) {
-								// Move eventItem from index i => k
-								// console.log('      move', eventItem.summary, 'from', i, 'to', k)
-								foundDestination = true
-								if (i < k) {
-									// Since we removed an item before k, decrement the index
-									k--
-								}
-								if (i != k) {
-									eventList.splice(i, 1) // Remove at index=i
-									eventList.splice(k, 0, eventItem) // Add at index=k
-									i-- // Since eventItem was moved, we need to check index=i again.
-								}
-								break
-							}
-						} // end loop k
-
-						if (!foundDestination) {
-							// Move eventItem from index i => end of list
-							var k = eventList.length - 1
-							// console.log('      move', eventItem.summary, 'from', i, 'to', k, '(end of list)')
-							if (i != k) {
-								eventList.splice(i, 1) // Remove at index=i
-								eventList.push(eventItem)
-								i-- // Since eventItem was moved, we need to check index=i again.
-							}
-						}
-
-						break
-					}
-				} // end loop j
-			}
-		} // end loop i
-	}
-
-	function parseGCalEvents(data) {
+	function parseEvents(data) {
 		agendaModel.populating = true
 		// agendaModel.clear()
 
@@ -199,59 +143,14 @@ ListModel {
 			return
 		}
 
-		if (plasmoid.configuration.agendaPlaceOverdueTasksOnToday) {
-			for (var i = 0; i < data.items.length; i++) {
-				var eventItem = data.items[i]
-				if (eventItem.kind == 'tasks#task'
-					&& eventItem.due
-					&& !eventItem.isCompleted
-				) {
-					var now = new Date(timeModel.currentTime)
-					var taskIsOverdue = eventItem.dueEndTime < now
-					if (taskIsOverdue) {
-						eventItem.start = {
-							date: Shared.dateString(now),
-						}
-						eventItem.end = {
-							date: Shared.dateString(now),
-						}
-						eventItem.startDateTime = now
-						eventItem.endDateTime = now
-					}
-				}
-			}
-		}
-
-		// Sort by start time if event, or position if tasks
-		data.items.sort(function(a,b) {
-			var aIsTask = a.kind === 'tasks#task'
-			var bIsTask = b.kind === 'tasks#task'
-			if (!aIsTask && bIsTask) {
-				return -1
-			} else if (aIsTask && !bIsTask) {
-				return 1
-			} else if (aIsTask && bIsTask) {
-				var ap = a.position
-				var bp = b.position
-				if (ap === bp) {
-					return 0
-				} else if (ap < bp) {
-					return -1
-				} else { // ap > bp
-					return 1
-				}
-			} else { // neither is task
-				return a.startDateTime - b.startDateTime
-			}
-		})
-		sortSubTasks(data.items)
+		data.items.sort(function(a,b) { return a.startDateTime - b.startDateTime })
 
 
 		var agendaItemList = []
 
 		for (var i = 0; i < data.items.length; i++) {
 			var eventItem = data.items[i]
-			if (plasmoid.configuration.agendaBreakupMultiDayEvents) {
+			if (Plasmoid.configuration.agendaBreakupMultiDayEvents) {
 				// for Max(start, visibleMin) .. Min(end, visibleMax)
 				var lowerLimitDate = (agendaModel.clipEventsOutsideLimits && eventItem.startDateTime < agendaModel.visibleDateMin
 					? agendaModel.visibleDateMin
@@ -391,7 +290,7 @@ ListModel {
 	}
 
 	Component.onCompleted: {
-		parseGCalEvents({ "items": [] })
+		parseEvents({ "items": [] })
 		parseWeatherForecast({ "list": [] })
 	}
 }

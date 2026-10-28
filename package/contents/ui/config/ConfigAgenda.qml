@@ -1,7 +1,7 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
-import org.kde.kirigami 2.0 as Kirigami
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 
 import ".."
 import "../lib"
@@ -9,7 +9,7 @@ import "../lib"
 ConfigPage {
 	id: page
 
-	property int indentWidth: 24 * Kirigami.Units.devicePixelRatio
+	property int indentWidth: 24
 
 	ConfigCheckBox {
 		configKey: 'widgetShowAgenda'
@@ -69,7 +69,7 @@ ConfigPage {
 			label: i18n("Click Weather:")
 			RadioButton {
 				text: i18n("Open City Forecast In Browser")
-				exclusiveGroup: clickWeatherGroup.exclusiveGroup
+				ButtonGroup.group: clickWeatherGroup.exclusiveGroup
 				checked: true
 			}
 		}
@@ -80,13 +80,8 @@ ConfigPage {
 			id: clickDateGroup
 			label: i18n("Click Date:")
 			RadioButton {
-				text: i18n("Open New Event In Browser")
-				exclusiveGroup: clickDateGroup.exclusiveGroup
-				enabled: false
-			}
-			RadioButton {
 				text: i18n("Open New Event Form")
-				exclusiveGroup: clickDateGroup.exclusiveGroup
+				ButtonGroup.group: clickDateGroup.exclusiveGroup
 				checked: true
 			}
 		}
@@ -107,16 +102,12 @@ ConfigPage {
 			configKey: 'agendaCondensedAllDayEvent'
 			text: i18n("Hide 'All Day' text")
 		}
-		ConfigCheckBox {
-			configKey: 'agendaShowEventHangoutLink'
-			text: i18n("Google Hangouts link")
-		}
 		ConfigRadioButtonGroup {
 			id: clickEventGroup
 			label: i18n("Click Event:")
 			RadioButton {
 				text: i18n("Open Event In Browser")
-				exclusiveGroup: clickEventGroup.exclusiveGroup
+				ButtonGroup.group: clickEventGroup.exclusiveGroup
 				checked: true
 			}
 		}

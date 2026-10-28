@@ -1,8 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.1
-import QtQuick.Layouts 1.1
-import org.kde.plasma.core 2.0 as PlasmaCore
-import org.kde.plasma.components 3.0 as PlasmaComponents3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.kirigami as Kirigami
+import org.kde.plasma.plasmoid
 
 import "Shared.js" as Shared
 import "./weather/WeatherApi.js" as WeatherApi
@@ -12,7 +13,6 @@ GridLayout {
 	readonly property int agendaItemIndex: index
 	columnSpacing: 0
 	property var agendaItemEvents: model.events
-	property var agendaItemTasks: model.tasks
 	property date agendaItemDate: model.date
 	property bool agendaItemIsToday: false
 	function checkIfToday() {
@@ -22,17 +22,16 @@ GridLayout {
 	Component.onCompleted: agendaListItem.checkIfToday()
 	Connections {
 		target: timeModel
-		onLoaded: agendaListItem.checkIfToday()
-		onDateChanged: agendaListItem.checkIfToday()
+		function onLoaded() { agendaListItem.checkIfToday() }
+		function onDateChanged() { agendaListItem.checkIfToday() }
 	}
 	property bool agendaItemInProgress: agendaItemIsToday
-	property bool weatherOnRight: plasmoid.configuration.agendaWeatherOnRight
-	property alias tasksRepeater: tasksRepeater
+	property bool weatherOnRight: Plasmoid.configuration.agendaWeatherOnRight
 	property alias eventsRepeater: eventsRepeater
 
 	Connections {
 		target: agendaModel
-		onPopulatingChanged: {
+		function onPopulatingChanged() {
 			if (!agendaModel.populating) {
 				agendaListItem.reset()
 			}
@@ -71,19 +70,19 @@ GridLayout {
 			anchors.horizontalCenter: parent.horizontalCenter
 
 			FontIcon {
-				visible: showWeather && plasmoid.configuration.agendaWeatherShowIcon
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				visible: showWeather && Plasmoid.configuration.agendaWeatherShowIcon
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				source: weatherIcon
 				height: appletConfig.agendaWeatherIconSize
-				showOutline: plasmoid.configuration.showOutlines
+				showOutline: Plasmoid.configuration.showOutlines
 				Layout.fillWidth: true
 			}
 
 			PlasmaComponents3.Label {
 				id: itemWeatherText
-				visible: showWeather && plasmoid.configuration.agendaWeatherShowText
+				visible: showWeather && Plasmoid.configuration.agendaWeatherShowText
 				text: weatherText
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -99,7 +98,7 @@ GridLayout {
 					var low = isNaN(model.tempLow) ? '?' : model.tempLow + '°'
 					return high + ' | ' + low
 				}
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -115,7 +114,7 @@ GridLayout {
 			// console.log('agendaItem.date.clicked', date)
 			if (true) {
 				// agenda_weather_clicked == "browser_viewcityforecast"
-				WeatherApi.openCityUrl(plasmoid.configuration)
+				WeatherApi.openCityUrl(Plasmoid.configuration)
 			}
 		}
 	}
@@ -138,8 +137,8 @@ GridLayout {
 
 			PlasmaComponents3.Label {
 				id: itemDate
-				text: Qt.formatDateTime(date, i18nc("agenda date format line 1", "MMM d"))
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				text: date.toLocaleString(Qt.locale(), i18nc("agenda date format line 1", "MMM d"))
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.75
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -150,8 +149,8 @@ GridLayout {
 
 			PlasmaComponents3.Label {
 				id: itemDay
-				text: Qt.formatDateTime(date, i18nc("agenda date format line 2", "ddd"))
-				color: agendaItemIsToday ? inProgressColor : PlasmaCore.ColorScope.textColor
+				text: date.toLocaleString(Qt.locale(), i18nc("agenda date format line 2", "ddd"))
+				color: agendaItemIsToday ? inProgressColor : Kirigami.Theme.textColor
 				opacity: agendaItemIsToday ? 1 : 0.5
 				font.pointSize: -1
 				font.pixelSize: appletConfig.agendaFontSize
@@ -163,13 +162,7 @@ GridLayout {
 
 		onLeftClicked: {
 			// console.log('agendaItem.date.leftClicked', date)
-			if (false) {
-				// agenda_date_clicked == "browser_newevent"
-				Shared.openGoogleCalendarNewEventUrl(date)
-			} else if (true) {
-				// agenda_date_clicked == "agenda_newevent"
-				newEventForm.active = !newEventForm.active
-			}
+			newEventForm.active = !newEventForm.active
 		}
 	}
 
@@ -197,18 +190,12 @@ GridLayout {
 					width: parent.width
 				}
 			}
-
-			Repeater {
-				id: tasksRepeater
-				model: agendaItemTasks
-
-				delegate: AgendaTaskItem {
-					id: agendaTaskItem
-					width: parent.width
-				}
-			}
 		}
 
+	}
+
+	function openNewEventForm() {
+		newEventForm.active = true
 	}
 
 	function indexOfEvent(eventId) {
@@ -216,12 +203,6 @@ GridLayout {
 			var event = eventsRepeater.model[i]
 			if (event.id === eventId) {
 				return i
-			}
-		}
-		for (var i = 0; i < tasksRepeater.model.length; i++) {
-			var task = tasksRepeater.model[i]
-			if (task.id === eventId) {
-				return eventsRepeater.model.length + i
 			}
 		}
 		return -1
@@ -232,17 +213,6 @@ GridLayout {
 		for (var i = 0; i < index && i < eventsRepeater.count; i++) {
 			var item = eventsRepeater.itemAt(i)
 			if (i > 0) {
-				yOffset += eventsLayout.spacing
-			}
-			yOffset += item.height
-		}
-		for (var i = 0; i < tasksRepeater.count; i++) {
-			var item = tasksRepeater.itemAt(i)
-			var eventIndex = eventsRepeater.count + i
-			if (eventIndex >= index) {
-				break
-			}
-			if (i > 0 || eventsRepeater.count > 0) {
 				yOffset += eventsLayout.spacing
 			}
 			yOffset += item.height

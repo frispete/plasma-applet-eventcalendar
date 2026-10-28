@@ -1,6 +1,7 @@
-import QtQuick 2.1
-import org.kde.plasma.configuration 2.0
-import org.kde.plasma.calendar 2.0 as PlasmaCalendar
+import QtQuick
+import org.kde.plasma.configuration
+import org.kde.plasma.workspace.calendar as PlasmaCalendar
+import org.kde.plasma.plasmoid
 
 import "../ui/calendars/PlasmaCalendarUtils.js" as PlasmaCalendarUtils
 
@@ -46,12 +47,7 @@ ConfigModel {
 		name: i18n("ICalendar (.ics)")
 		icon: "text-calendar"
 		source: "config/ConfigICal.qml"
-		visible: plasmoid.configuration.debugging
-	}
-	ConfigCategory {
-		name: i18n("Google Calendar")
-		icon: plasmoid.file("", "icons/google_calendar_96px.png")
-		source: "config/ConfigGoogleCalendar.qml"
+		visible: Plasmoid.configuration.debugging
 	}
 	ConfigCategory {
 		name: i18n("Weather")
@@ -62,20 +58,23 @@ ConfigModel {
 		name: i18n("Advanced")
 		icon: "applications-development"
 		source: "lib/ConfigAdvanced.qml"
-		visible: plasmoid.configuration.debugging
+		visible: Plasmoid.configuration.debugging
+	}
+
+	property QtObject eventPluginsManager: PlasmaCalendar.EventPluginsManager {
+		Component.onCompleted: populateEnabledPluginsList(PlasmaCalendarUtils.toPluginIdList(Plasmoid.configuration.enabledCalendarPlugins))
 	}
 
 	property Instantiator __eventPlugins: Instantiator {
-		model: PlasmaCalendar.EventPluginsManager.model
+		model: configModel.eventPluginsManager.model
 		delegate: ConfigCategory {
 			name: model.display
 			icon: model.decoration
 			source: model.configUi
-			readonly property string pluginFilename: PlasmaCalendarUtils.getPluginFilename(model.pluginPath)
-			visible: plasmoid.configuration.enabledCalendarPlugins.indexOf(pluginFilename) > -1
+			visible: PlasmaCalendarUtils.toPluginIdList(Plasmoid.configuration.enabledCalendarPlugins).indexOf(model.pluginId) > -1
 		}
 
-		onObjectAdded: configModel.appendCategory(object)
-		onObjectRemoved: configModel.removeCategory(object)
+		onObjectAdded: (index, object) => configModel.appendCategory(object)
+		onObjectRemoved: (index, object) => configModel.removeCategory(object)
 	}
 }

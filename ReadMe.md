@@ -1,71 +1,81 @@
 # Event Calendar
 
-https://store.kde.org/p/998901/
+A KDE Plasma 6 replacement for the digital clock: a calendar and agenda with a
+weather forecast, meteogram and timer.
 
-Plasmoid for a calendar+agenda with weather that syncs to Google Calendar.
-
-## Screenshots
+This is a Plasma 6 port of [Zren's Event Calendar](https://github.com/Zren/plasma-applet-eventcalendar)
+(last released for Plasma 5 as v76). It targets current openSUSE Tumbleweed but
+should run on any distribution with Plasma 6.
 
 ![](https://i.imgur.com/qdJ71sb.jpg)
-![](https://i.imgur.com/Ow8UlFj.jpg)
 
+## Changes from the Plasma 5 version
 
-## A) Install via KDE
+* **No built-in Google Calendar/Tasks sync.** Google shut down the login flow it
+  used. Use Akonadi instead, see [Google Calendar](#google-calendar) below.
+* Event editing/deleting from the agenda is gone, since Plasma calendar events
+  are read-only. New events can still be created in Akonadi calendars.
+* The Weather Canada provider is gone; OpenWeatherMap remains.
+* Network detection works with NetworkManager, wicked or systemd-networkd.
 
-1. Right Click Panel > Panel Options > Add Widgets
-2. Get New Widgets > Download New Widgets
-3. Search: Event Calendar
-4. Install
-5. Right Click your current calendar widget > Alternatives
-6. Select Event Calendar
+The plugin id is unchanged (`org.kde.plasma.eventcalendar`), so an existing
+widget and its settings carry over.
 
-## B) Install via GitHub
+## Requirements
+
+On openSUSE Tumbleweed:
 
 ```
-git clone https://github.com/Zren/plasma-applet-eventcalendar.git eventcalendar
+sudo zypper install plasma6-workspace plasma5support6 qt6-qt5compat-imports \
+	kdepim-addons akonadi-calendar-tools \
+	python3-gobject typelib-1_0-Notify-0_7 libcanberra0 iproute2
+```
+
+* `kdepim-addons`: the PIM events calendar plugin (Akonadi/KOrganizer calendars)
+* `akonadi-calendar-tools`: `konsolekalendar`, used to create new events
+* `python3-gobject`, `typelib-1_0-Notify-0_7`, `libcanberra0`: notifications with sounds
+* `iproute2`: the `ip` command for network detection
+
+## Install
+
+```
+git clone https://github.com/frispete/plasma-applet-eventcalendar.git eventcalendar
 cd eventcalendar
-sh ./install
+./install
 ```
 
-To update, run the `sh ./update` script. It will run a `git pull` then reinstall the applet. Please note this script will restart plasmashell (so you don't have to relog)!
+If the widget is already installed, `./install` upgrades it and restarts
+plasmashell so the new version is loaded. `./update` runs `git pull` and then
+`./install`. `./uninstall` removes the widget.
 
-## C) Install via Package Manager
-
-Some awesome users seemed to have packaged this applet under `plasma5-applets-eventcalendar`.
-
-* Arch: https://aur.archlinux.org/packages/plasma5-applets-eventcalendar/
-* Chakra: https://chakralinux.org/ccr/packages.php?ID=7656
-
-(Old) There's also a russian who's patched the widget with russian translations. It's out of date though, and we now bundle russian translations with the rest.
-
-* ABF: https://abf.rosalinux.ru/victorr2007/plasma5-applet-eventcalendar
-
-## Update to GitHub master
-
-If you're asked to test something, you can do so by installing the latest unreleased code.
-
-Beforehand, uninstall the AUR version if you are running Arch (you can reinstall after testing).
-
-Then install pen the Terminal and run the following commands. Please note the install script will restart plasmashell so that you don't have to relog.
-
-```
-sudo apt install git
-git clone https://github.com/Zren/plasma-applet-eventcalendar.git eventcalendar
-cd eventcalendar
-sh ./install --restart
-```
-
-When you've finished testing, you may wish to reinstall the KDE Store or AUR version. First uninstall the widget with the following command, then reinstall your desired version of the widget.
-
-```
-sh ./uninstall
-```
+Then right click your clock in the panel > Show Alternatives > Event Calendar.
 
 ## Configure
 
-1. Right click the Calendar > Event Calendar Settings > Google Calendar
-2. Copy the Code and enter it at the given link. Keep the settings window open.
-3. After the settings window says it's synched, click apply.
-4. Go to the Weather Tab > Enter your city id for OpenWeatherMap. If their search can't find your city, try googling it with [site:openweathermap.org/city](https://www.google.ca/search?q=site%3Aopenweathermap.org%2Fcity+toronto).
+### Google Calendar
 
+1. Add your Google account to Akonadi as a "Google Groupware" calendar,
+   eg: with the add calendar button in KOrganizer or Merkuro.
+2. Open the Event Calendar settings > Events and enable the calendar events
+   (PIM) plugin.
+3. Its settings page appears in the sidebar; select the calendars to show there.
 
+The same works for any other calendar in KOrganizer/Akonadi (CalDAV, iCal files, …).
+
+### Weather
+
+Go to the Weather tab and enter your OpenWeatherMap city id, or use "Find City".
+The widget ships a shared API key; if it hits its rate limit you can enter your
+own key from [openweathermap.org](https://openweathermap.org/appid).
+
+## Development
+
+See [CLAUDE.md](CLAUDE.md) for an overview of the code, and
+[package/translate/ReadMe.md](package/translate/ReadMe.md) for translations.
+
+* `scripts/viewer-log.sh [seconds] [plasmoidviewer args]`: run the widget from
+  the checkout without a window and print the QML log
+* `scripts/viewer-shot.sh out.png [seconds] [args]`: same on a private Xvfb display,
+  saving a screenshot
+* `scripts/config-shot.sh config/ConfigGeneral.qml out.png`: open a settings page
+* `./build`: build the `*.plasmoid` for the KDE Store

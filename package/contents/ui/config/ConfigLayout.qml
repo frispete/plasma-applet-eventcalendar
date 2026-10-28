@@ -1,8 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
-import org.kde.kirigami 2.0 as Kirigami
-import QtGraphicalEffects 1.0 // Colorize
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
+import Qt5Compat.GraphicalEffects // Colorize
+import org.kde.plasma.plasmoid
 
 import ".."
 import "../lib"
@@ -15,19 +16,19 @@ ConfigPage {
 	}
 
 	//---
-	ExclusiveGroup { id: layoutGroup }
+	ButtonGroup { id: layoutGroup }
 	RadioButton {
 		text: i18n("Calendar to the left of the Agenda (Two Columns)")
-		exclusiveGroup: layoutGroup
-		checked: plasmoid.configuration.twoColumns
-		onClicked: plasmoid.configuration.twoColumns = true
+		ButtonGroup.group: layoutGroup
+		checked: Plasmoid.configuration.twoColumns
+		onClicked: Plasmoid.configuration.twoColumns = true
 		Layout.fillWidth: false
 		Layout.alignment: Qt.AlignHCenter
 	}
 	GridLayout {
 		Layout.fillWidth: false
 		Layout.alignment: Qt.AlignHCenter
-		Layout.preferredWidth: 400 * Kirigami.Units.devicePixelRatio
+		Layout.preferredWidth: 400
 		columns: 3
 
 		//--- Row1
@@ -76,8 +77,8 @@ ConfigPage {
 			Layout.columnSpan: 2
 			Layout.rowSpan: 2
 
-			implicitWidth: 300 * Kirigami.Units.devicePixelRatio
-			implicitHeight: 300 * Kirigami.Units.devicePixelRatio
+			implicitWidth: 300
+			implicitHeight: 300
 
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -85,7 +86,7 @@ ConfigPage {
 			Image {
 				id: twoColumnsImage
 				anchors.fill: parent
-				source: plasmoid.file("", "images/twocolumns.svg")
+				source: Qt.resolvedUrl("../../images/twocolumns.svg")
 				smooth: true
 				visible: false
 			}
@@ -107,9 +108,9 @@ ConfigPage {
 	//---
 	RadioButton {
 		text: i18n("Agenda below the Calendar (Single Column)")
-		exclusiveGroup: layoutGroup
-		checked: !plasmoid.configuration.twoColumns
-		onClicked: plasmoid.configuration.twoColumns = false
+		ButtonGroup.group: layoutGroup
+		checked: !Plasmoid.configuration.twoColumns
+		onClicked: Plasmoid.configuration.twoColumns = false
 		Layout.fillWidth: false
 		Layout.alignment: Qt.AlignHCenter
 	}
@@ -117,12 +118,12 @@ ConfigPage {
 	GridLayout {
 		Layout.fillWidth: false
 		Layout.alignment: Qt.AlignHCenter
-		Layout.preferredWidth: 400 * Kirigami.Units.devicePixelRatio
+		Layout.preferredWidth: 400
 		columns: 3
 
 		//--- Row1
 		Item {
-			implicitWidth: 150 * Kirigami.Units.devicePixelRatio
+			implicitWidth: 150
 			Layout.fillWidth: true
 			Layout.column: 0
 			Layout.row: 0
@@ -148,7 +149,7 @@ ConfigPage {
 
 		//--- Row3
 		Item {
-			implicitHeight: 150 * Kirigami.Units.devicePixelRatio
+			implicitHeight: 150
 			Layout.column: 2
 			Layout.row: 2
 		}
@@ -160,8 +161,8 @@ ConfigPage {
 			Layout.columnSpan: 2
 			Layout.rowSpan: 2
 
-			implicitWidth: 300 * Kirigami.Units.devicePixelRatio
-			implicitHeight: 300 * Kirigami.Units.devicePixelRatio
+			implicitWidth: 300
+			implicitHeight: 300
 
 			Layout.fillWidth: true
 			Layout.fillHeight: true
@@ -169,7 +170,7 @@ ConfigPage {
 			Image {
 				id: singleColumnImage
 				anchors.fill: parent
-				source: plasmoid.file("", "images/singlecolumn.svg")
+				source: Qt.resolvedUrl("../../images/singlecolumn.svg")
 				smooth: true
 				visible: false
 			}

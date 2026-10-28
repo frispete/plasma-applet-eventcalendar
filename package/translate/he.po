@@ -6,8 +6,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eventcalendar\n"
-"Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-eventcalendar\n"
-"POT-Creation-Date: 2023-08-18 10:16-0400\n"
+"Report-Msgid-Bugs-To: https://github.com/frispete/plasma-applet-"
+"eventcalendar\n"
+"POT-Creation-Date: 2026-10-27 17:41+0100\n"
 "PO-Revision-Date: 2022-04-05 00:34+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,18 +19,6 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n==2 ? 1 : n>10 && n%10==0 ? "
 "2 : 3);\n"
 "X-Generator: Poedit 3.0.1\n"
-
-#: ../metadata.desktop ../contents/ui/AgendaView.qml
-#: ../contents/ui/UpcomingEvents.qml
-msgid "Event Calendar"
-msgstr "לוח שנה עם אירועים"
-
-#: ../metadata.desktop
-msgid ""
-"Plasmoid for a calendar+agenda with weather that syncs to Google Calendar."
-msgstr ""
-"יישומון לוח שנה וסדר יום שמסתנכרן עם Google Calendar ועם גישה ישירה לתחזית "
-"מזג האוויר."
 
 #: ../contents/config/config.qml
 msgid "General"
@@ -59,10 +48,6 @@ msgstr "אירועים"
 msgid "ICalendar (.ics)"
 msgstr "ICalendar (.ics)"
 
-#: ../contents/config/config.qml ../contents/ui/config/ConfigEvents.qml
-msgid "Google Calendar"
-msgstr "Google Calendar"
-
 #: ../contents/config/config.qml
 msgid "Weather"
 msgstr "מזג האוויר"
@@ -71,30 +56,13 @@ msgstr "מזג האוויר"
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/EditEventForm.qml
-#: ../contents/ui/LocaleFuncs.js
+#: ../contents/ui/AgendaEventItem.qml ../contents/ui/LocaleFuncs.js
 msgid "All Day"
 msgstr "כל היום"
 
 #: ../contents/ui/AgendaEventItem.qml
-msgid "Hangout"
-msgstr "בילוי"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit"
-msgstr "עריכה"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Delete Event"
-msgstr "מחיקת האירוע"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Confirm Deletion"
-msgstr "אישור מחיקה"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit in browser"
-msgstr "עריכה בדפדפן"
+msgid "Open in browser"
+msgstr ""
 
 #: ../contents/ui/AgendaListItem.qml
 msgctxt "agenda date format line 1"
@@ -106,10 +74,9 @@ msgctxt "agenda date format line 2"
 msgid "ddd"
 msgstr "ddd"
 
-#: ../contents/ui/AgendaTaskItem.qml ../contents/ui/LocaleFuncs.js
-msgctxt "short month+date format"
-msgid "MMM d"
-msgstr "d ב־MMM"
+#: ../contents/ui/AgendaView.qml ../contents/ui/UpcomingEvents.qml
+msgid "Event Calendar"
+msgstr "לוח שנה עם אירועים"
 
 #: ../contents/ui/calendars/CalendarManager.qml
 msgctxt "event with no summary"
@@ -119,28 +86,6 @@ msgstr "(אין כותרת)"
 #: ../contents/ui/CalendarSelector.qml
 msgid "[No Calendars]"
 msgstr "[אין לוחות שנה]"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "HTTP Error %1: %2"
-msgstr "שגיאת HTTP‏ %1:‏ %2"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Could not connect"
-msgstr "לא היה ניתן להתחבר"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Will try again soon."
-msgstr "ננסה שוב בקרוב."
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-#: ../contents/ui/config/ConfigGoogleCalendar.qml ../contents/ui/Logic.qml
-msgid ""
-"Widget has been updated. Please logout and login to Google Calendar again."
-msgstr "היישומון עודכן. נא לצאת ולהיכנס בחזרה אל Google Calendar."
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-msgid "Too many web requests. Will try again soon."
-msgstr "יותר מדי בקשות. ננסה שוב בקרוב."
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Show agenda"
@@ -198,10 +143,6 @@ msgid "Click Date:"
 msgstr "לחיצה על תאריך:"
 
 #: ../contents/ui/config/ConfigAgenda.qml
-msgid "Open New Event In Browser"
-msgstr "פתיחת אירוע חדש בדפדפן"
-
-#: ../contents/ui/config/ConfigAgenda.qml
 msgid "Open New Event Form"
 msgstr "פתיחת דו־שיח מקומי ליצירת אירועים"
 
@@ -212,10 +153,6 @@ msgstr "תיאור האירוע"
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Hide 'All Day' text"
 msgstr "הסתרת טקסט \"כל היום\""
-
-#: ../contents/ui/config/ConfigAgenda.qml
-msgid "Google Hangouts link"
-msgstr "קישור ל־Google Hangouts"
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Click Event:"
@@ -287,8 +224,8 @@ msgid "Double-click on Date:"
 msgstr "לחיצה כפולה על תאריך:"
 
 #: ../contents/ui/config/ConfigCalendar.qml
-msgid "New Google Calendar Event (Web Browser)"
-msgstr "אירוע חדש ב־Google Calendar (בדפדפן האינטרנט)"
+msgid "New Event (Agenda)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigCalendar.qml
 msgid "Do Nothing"
@@ -383,6 +320,13 @@ msgstr "תוספי לוח שנה עם אירועים"
 #: ../contents/ui/config/ConfigEvents.qml
 msgid "Plasma Calendar Plugins"
 msgstr "תוספי לוח שנה ל־‏Plasma"
+
+#: ../contents/ui/config/ConfigEvents.qml
+msgid ""
+"Enable the calendar events (PIM) plugin to show calendars from KOrganizer/"
+"Akonadi, eg: Google Calendar. Choose the calendars on its settings page, "
+"which appears in the sidebar once the plugin is enabled."
+msgstr ""
 
 #: ../contents/ui/config/ConfigEvents.qml
 #: ../contents/ui/config/ConfigGeneral.qml
@@ -517,8 +461,8 @@ msgid "Volume (No UI) (amixer)"
 msgstr "עוצמת שמע (בלי ממשק משתמש) (amixer)"
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid "Volume (UI) (qdbus)"
-msgstr "עוצמת שמע (עם ממשק משתמש) (qdbus)"
+msgid "Volume (UI) (qdbus6)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
 msgid "Desktop Widget: Show background"
@@ -536,79 +480,9 @@ msgstr "ניפוי השגיאות ירשום מידע רגיש בקובץ:"
 msgid "Enable Debugging"
 msgstr "הפעלת ניפוי שגיאות"
 
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Login"
-msgstr "כניסה"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Currently Synched."
-msgstr "כרגע מסונכרן."
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Logout"
-msgstr "יציאה"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "To sync with Google Calendar"
-msgstr "לסנכרון עם Google Calendar"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid ""
-"Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login and "
-"give permission to access your calendar, it will give you a code to paste "
-"below."
-msgstr ""
-"נא לפתוח את <a href=\"%1\">%2</a> (הקישור ייפתח בדפדפן האינטרנט). לאחר "
-"הכניסה והענקת הרשאת הגישה ללוח השנה, יינתן לך קוד שיהיה אפשר להדביק למטה."
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Copy Link"
-msgstr "העתקת הקישור"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Enter code here (Eg: %1)"
-msgstr "נא לציין את הקוד כאן (למשל: %1)"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Submit"
-msgstr "שליחה"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Invalid Google Authorization Code"
-msgstr "קוד בלתי־תקין של Google Authorization"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Calendars"
 msgstr "לוחות שנה"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Refresh"
-msgstr "ריענון"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Tasks"
-msgstr "משימות"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Options"
-msgstr "אפשרויות"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Event Click:"
-msgstr "לחיצה על אירוע:"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Event View"
-msgstr "פתיחת תצוגת האירוע ברשת"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Month View"
-msgstr "פתיחת תצוגת השבוע ברשת"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Hide \"This event was added from Goals in Google Calendar\" description"
-msgstr "הסתרת התיאור \"אירוע זה נוסף מהמטרות שב־Google Calendar\""
 
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Add Calendar"
@@ -639,8 +513,14 @@ msgid "Agenda below the Calendar (Single Column)"
 msgstr "סדר היום מתחת ללוח השנה (עמודה אחת)"
 
 #: ../contents/ui/config/ConfigTimezones.qml
-msgid "Tooltip"
-msgstr "חלונית הגדרה"
+msgctxt "city, region"
+msgid "%1, %2"
+msgstr ""
+
+#: ../contents/ui/config/ConfigTimezones.qml
+msgctxt "time zone name (comment)"
+msgid "%1 (%2)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigTimezones.qml
 msgid "Cannot deselect Local time from the tooltip"
@@ -665,10 +545,6 @@ msgstr "למשל: 5983720"
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Find City"
 msgstr "איתור עיר"
-
-#: ../contents/ui/config/ConfigWeather.qml
-msgid "Eg: on-14"
-msgstr ""
 
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Settings"
@@ -735,73 +611,20 @@ msgid "Icons"
 msgstr "סמלים"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Select city"
 msgstr "בחירת עיר"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Fetched from <a href=\"%1\">%1</a>"
 msgstr "הנתונים נמשכו מתוך <a href=\"%1\">%1</a>"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Search"
 msgstr "חיפוש"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Name"
-msgstr "שם"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Id"
-msgstr "מזהה"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "City Webpage"
-msgstr "אתר האינטרנט של העיר"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Open Link"
 msgstr "פתיחת הקישור"
-
-#: ../contents/ui/DateTimeSelector.qml
-msgctxt "event editor date format"
-msgid "d MMM, yyyy"
-msgstr "d ב־MMM, yyyy"
-
-#: ../contents/ui/DurationSelector.qml
-msgid "to"
-msgstr "עד"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Event Title"
-msgstr "כותרת האירוע"
-
-#: ../contents/ui/EditEventForm.qml
-msgid "Add location"
-msgstr "הוספת מיקום"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Add description"
-msgstr "הוספת תיאור"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "&Save"
-msgstr "&שמירה"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-#: ../contents/ui/TimerInputView.qml
-msgid "&Cancel"
-msgstr "בי_טול"
-
-#: ../contents/ui/EditTaskForm.qml
-msgid "Add due date"
-msgstr "הוספת תאריך יעד"
 
 #: ../contents/ui/lib/AppletVersion.qml
 msgid "<b>Version:</b> %1"
@@ -845,6 +668,11 @@ msgid "h:mm AP"
 msgstr "h:mm AP"
 
 #: ../contents/ui/LocaleFuncs.js
+msgctxt "short month+date format"
+msgid "MMM d"
+msgstr "d ב־MMM"
+
+#: ../contents/ui/LocaleFuncs.js
 msgctxt "date (%1) with time (%2)"
 msgid "%1, %2"
 msgstr "%1, %2"
@@ -872,20 +700,24 @@ msgid "%1s"
 msgstr "%1 שנ׳"
 
 #: ../contents/ui/Logic.qml
-msgid "Weather API limit reached"
-msgstr "הגעת למכסת ה־API של תחזית מזג האוויר"
+msgid "Could not connect"
+msgstr "לא היה ניתן להתחבר"
 
 #: ../contents/ui/Logic.qml
-msgid "Logged out of Google. Please login again."
-msgstr "מחוץ לחשבון Google. נא להיכנס שוב."
+msgid "HTTP Error %1: %2"
+msgstr "שגיאת HTTP‏ %1:‏ %2"
+
+#: ../contents/ui/Logic.qml
+msgid "Will try again soon."
+msgstr "ננסה שוב בקרוב."
+
+#: ../contents/ui/Logic.qml
+msgid "Weather API limit reached"
+msgstr "הגעת למכסת ה־API של תחזית מזג האוויר"
 
 #: ../contents/ui/main.qml
 msgid "Set Language…"
 msgstr "הגדרת שפה…"
-
-#: ../contents/ui/main.qml
-msgid "Set Locale…"
-msgstr "הגדרת מיקום…"
 
 #: ../contents/ui/MeteogramView.qml
 #, c-format
@@ -923,6 +755,10 @@ msgstr "שגיאה במשיכת תחזית מזג האוויר."
 #: ../contents/ui/TimerInputView.qml
 msgid "&Start"
 msgstr "ה&תחלה"
+
+#: ../contents/ui/TimerInputView.qml
+msgid "&Cancel"
+msgstr "בי_טול"
 
 #: ../contents/ui/TimerModel.qml
 msgid "Timer finished"
@@ -972,3 +808,140 @@ msgstr "אירועים קרובים"
 msgctxt "%1 = 15 minutes"
 msgid "Starting in %1"
 msgstr "מתחיל בעוד %1"
+
+#~ msgid ""
+#~ "Plasmoid for a calendar+agenda with weather that syncs to Google Calendar."
+#~ msgstr ""
+#~ "יישומון לוח שנה וסדר יום שמסתנכרן עם Google Calendar ועם גישה ישירה "
+#~ "לתחזית מזג האוויר."
+
+#~ msgid "Google Calendar"
+#~ msgstr "Google Calendar"
+
+#~ msgid "Hangout"
+#~ msgstr "בילוי"
+
+#~ msgid "Edit"
+#~ msgstr "עריכה"
+
+#~ msgid "Delete Event"
+#~ msgstr "מחיקת האירוע"
+
+#~ msgid "Confirm Deletion"
+#~ msgstr "אישור מחיקה"
+
+#~ msgid "Edit in browser"
+#~ msgstr "עריכה בדפדפן"
+
+#~ msgid ""
+#~ "Widget has been updated. Please logout and login to Google Calendar again."
+#~ msgstr "היישומון עודכן. נא לצאת ולהיכנס בחזרה אל Google Calendar."
+
+#~ msgid "Too many web requests. Will try again soon."
+#~ msgstr "יותר מדי בקשות. ננסה שוב בקרוב."
+
+#~ msgid "Open New Event In Browser"
+#~ msgstr "פתיחת אירוע חדש בדפדפן"
+
+#~ msgid "Google Hangouts link"
+#~ msgstr "קישור ל־Google Hangouts"
+
+#~ msgid "New Google Calendar Event (Web Browser)"
+#~ msgstr "אירוע חדש ב־Google Calendar (בדפדפן האינטרנט)"
+
+#~ msgid "Volume (UI) (qdbus)"
+#~ msgstr "עוצמת שמע (עם ממשק משתמש) (qdbus)"
+
+#~ msgid "Login"
+#~ msgstr "כניסה"
+
+#~ msgid "Currently Synched."
+#~ msgstr "כרגע מסונכרן."
+
+#~ msgid "Logout"
+#~ msgstr "יציאה"
+
+#~ msgid "To sync with Google Calendar"
+#~ msgstr "לסנכרון עם Google Calendar"
+
+#~ msgid ""
+#~ "Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login "
+#~ "and give permission to access your calendar, it will give you a code to "
+#~ "paste below."
+#~ msgstr ""
+#~ "נא לפתוח את <a href=\"%1\">%2</a> (הקישור ייפתח בדפדפן האינטרנט). לאחר "
+#~ "הכניסה והענקת הרשאת הגישה ללוח השנה, יינתן לך קוד שיהיה אפשר להדביק למטה."
+
+#~ msgid "Copy Link"
+#~ msgstr "העתקת הקישור"
+
+#~ msgid "Enter code here (Eg: %1)"
+#~ msgstr "נא לציין את הקוד כאן (למשל: %1)"
+
+#~ msgid "Submit"
+#~ msgstr "שליחה"
+
+#~ msgid "Invalid Google Authorization Code"
+#~ msgstr "קוד בלתי־תקין של Google Authorization"
+
+#~ msgid "Refresh"
+#~ msgstr "ריענון"
+
+#~ msgid "Tasks"
+#~ msgstr "משימות"
+
+#~ msgid "Options"
+#~ msgstr "אפשרויות"
+
+#~ msgid "Event Click:"
+#~ msgstr "לחיצה על אירוע:"
+
+#~ msgid "Open Web Event View"
+#~ msgstr "פתיחת תצוגת האירוע ברשת"
+
+#~ msgid "Open Web Month View"
+#~ msgstr "פתיחת תצוגת השבוע ברשת"
+
+#~ msgid ""
+#~ "Hide \"This event was added from Goals in Google Calendar\" description"
+#~ msgstr "הסתרת התיאור \"אירוע זה נוסף מהמטרות שב־Google Calendar\""
+
+#~ msgid "Tooltip"
+#~ msgstr "חלונית הגדרה"
+
+#~ msgid "Name"
+#~ msgstr "שם"
+
+#~ msgid "Id"
+#~ msgstr "מזהה"
+
+#~ msgid "City Webpage"
+#~ msgstr "אתר האינטרנט של העיר"
+
+#~ msgctxt "event editor date format"
+#~ msgid "d MMM, yyyy"
+#~ msgstr "d ב־MMM, yyyy"
+
+#~ msgid "to"
+#~ msgstr "עד"
+
+#~ msgid "Event Title"
+#~ msgstr "כותרת האירוע"
+
+#~ msgid "Add location"
+#~ msgstr "הוספת מיקום"
+
+#~ msgid "Add description"
+#~ msgstr "הוספת תיאור"
+
+#~ msgid "&Save"
+#~ msgstr "&שמירה"
+
+#~ msgid "Add due date"
+#~ msgstr "הוספת תאריך יעד"
+
+#~ msgid "Logged out of Google. Please login again."
+#~ msgstr "מחוץ לחשבון Google. נא להיכנס שוב."
+
+#~ msgid "Set Locale…"
+#~ msgstr "הגדרת מיקום…"

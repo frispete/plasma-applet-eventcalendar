@@ -1,94 +1,41 @@
-import QtQuick 2.0
-// import org.kde.plasma.networkmanagement 0.2 as PlasmaNM
+import QtQuick
 
-QtObject {
+import "./lib"
+
+// Backend agnostic online detection: we're "connected" when the kernel has a
+// default route (IPv4 or IPv6). Works with NetworkManager, wicked,
+// systemd-networkd or a static setup, as it only asks the kernel.
+Item {
 	id: networkMonitor
 
-	// https://invent.kde.org/plasma/plasma-nm
-	// readonly property var plasmaNMStatus: PlasmaNM.NetworkStatus {
-	// 	id: plasmaNMStatus
-	// 	// onActiveConnectionsChanged: logger.debug('NetworkStatus.activeConnections', activeConnections)
-	// 	onNetworkStatusChanged: logger.debug('NetworkStatus.networkStatus', networkStatus)
-	// 	Component.onCompleted: {
-	// 		// logger.debug('NetworkStatus.activeConnections', activeConnections)
-	// 		logger.debug('NetworkStatus.networkStatus', networkStatus)
-	// 	}
-	// }
-	// readonly property var plasmaNMIcon: PlasmaNM.ConnectionIcon {
-	// 	id: plasmaNMIcon
-	// 	onConnectingChanged: logger.debug('ConnectionIcon.connecting', connecting)
-	// 	onConnectionIconChanged: logger.debug('ConnectionIcon.connectionIcon', connectionIcon)
-	// 	onConnectionTooltipIconChanged: logger.debug('ConnectionIcon.connectionTooltipIcon', connectionTooltipIcon)
-	// 	onNeedsPortalChanged: logger.debug('ConnectionIcon.needsPortal', needsPortal)
-	// 	Component.onCompleted: {
-	// 		logger.debug('ConnectionIcon.connecting', connecting)
-	// 		logger.debug('ConnectionIcon.connectionIcon', connectionIcon)
-	// 		logger.debug('ConnectionIcon.connectionTooltipIcon', connectionTooltipIcon)
-	// 		logger.debug('ConnectionIcon.needsPortal', needsPortal)
-	// 	}
-	// }
-	// readonly property var plasmaNMAvailableDevices: PlasmaNM.AvailableDevices {
-	// 	id: plasmaNMAvailableDevices
-	// 	onWiredDeviceAvailableChanged: logger.debug('AvailableDevices.wiredDeviceAvailable', wiredDeviceAvailable)
-	// 	onWirelessDeviceAvailableChanged: logger.debug('AvailableDevices.wirelessDeviceAvailable', wirelessDeviceAvailable)
-	// 	onModemDeviceAvailableChanged: logger.debug('AvailableDevices.modemDeviceAvailable', modemDeviceAvailable)
-	// 	onBluetoothDeviceAvailableChanged: logger.debug('AvailableDevices.bluetoothDeviceAvailable', bluetoothDeviceAvailable)
-	// 	Component.onCompleted: {
-	// 		logger.debug('AvailableDevices.wiredDeviceAvailable', wiredDeviceAvailable)
-	// 		logger.debug('AvailableDevices.wirelessDeviceAvailable', wirelessDeviceAvailable)
-	// 		logger.debug('AvailableDevices.modemDeviceAvailable', modemDeviceAvailable)
-	// 		logger.debug('AvailableDevices.bluetoothDeviceAvailable', bluetoothDeviceAvailable)
-	// 	}
-	// }
+	property bool isConnected: true // Assume we're online until checked
+	property int checkInterval: 30 * 1000
 
+	ExecUtil { id: executable }
 
+	readonly property var checkCommand: 'ip route show default; ip -6 route show default'
 
-	// We need to dynamically import PlasmaNM since it's not preinstalled on every distro (Issue #212)
-	// readonly property var plasmaNMStatus: Qt.createQmlObject("import org.kde.plasma.networkmanagement 0.2 as PlasmaNM; PlasmaNM.NetworkStatus {}", networkMonitor)
-	readonly property Loader plasmaNMStatusLoader: Loader {
-		id: plasmaNMStatusLoader
-		source: "NetworkMonitorPlasmaNM.qml"
+	function check() {
+		executable.exec(checkCommand, function(cmd, exitCode, exitStatus, stdout, stderr) {
+			if (exitCode == 127) {
+				// 'ip' (iproute2) is not installed, so we can't tell.
+				logger.log('NetworkMonitor: ip command not found, assuming we are online')
+				checkTimer.stop()
+				networkMonitor.isConnected = true
+				return
+			}
+			networkMonitor.isConnected = stdout.trim().length > 0
+		})
 	}
 
-
-	// Since the network status state isn't exposed, we need to either parse the icon or user message to know the state.
-	// We could compare the icon, however it has a number of network types (wired/wireless) with different wireless strengths
-	// like network-wireless-connected-80 for 80% signal. There's a ton of disconnected types too.
-	// (network-flightmode-on/network-unavailable/network-wired-available/network-mobile-available)
-	// While comparing the i18n messages could be buggy in certain locales, at least we have a simple complete list of states.
-
-
-	// https://invent.kde.org/plasma/plasma-nm/-/blame/master/libs/declarative/networkstatus.cpp#L115
-	readonly property var connectedMessages: [
-		i18ndc("plasmanetworkmanagement-libs", "A network device is connected, but there is only link-local connectivity", "Connected"),
-		i18ndc("plasmanetworkmanagement-libs", "A network device is connected, but there is only site-local connectivity", "Connected"),
-		i18ndc("plasmanetworkmanagement-libs", "A network device is connected, with global network connectivity", "Connected"),
-	]
-	// readonly property var disconnectedMessages: [
-	// 	i18ndc("plasmanetworkmanagement-libs", "Networking is inactive and all devices are disabled", "Inactive"),
-	// 	i18ndc("plasmanetworkmanagement-libs", "There is no active network connection", "Disconnected"),
-	// 	i18ndc("plasmanetworkmanagement-libs", "Network connections are being cleaned up", "Disconnecting"),
-	// 	i18ndc("plasmanetworkmanagement-libs", "A network device is connecting to a network and there is no other available network connection", "Connecting"),
-	// ]
-
-	readonly property string networkStatus: {
-		if (plasmaNMStatusLoader.status == Loader.Ready) {
-			return plasmaNMStatusLoader.item.networkStatus
-		} else {
-			return ''
-		}
-	}
-	readonly property bool isConnected: {
-		if (plasmaNMStatusLoader.status == Loader.Error) {
-			// Failed to load PlasmaNM, so treat it as connected.
-			return true
-		} else {
-			return connectedMessages.indexOf(networkStatus) >= 0
-		}
+	Timer {
+		id: checkTimer
+		running: true
+		repeat: true
+		triggeredOnStart: true
+		interval: networkMonitor.checkInterval
+		onTriggered: networkMonitor.check()
 	}
 
 	onIsConnectedChanged: logger.debug('NetworkMonitor.isConnected', isConnected)
-	Component.onCompleted: {
-		logger.debug('NetworkMonitor.isConnected', isConnected)
-	}
 }

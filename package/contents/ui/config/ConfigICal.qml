@@ -1,21 +1,16 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Controls.Styles 1.1
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.0
-import org.kde.kirigami 2.0 as Kirigami
-
-import org.kde.kcoreaddons 1.0 as KCoreAddons
+import QtCore
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
+import org.kde.kirigami as Kirigami
 
 import ".."
 import "../lib"
+import "../Shared.js" as Shared
 
 ConfigPage {
 	id: page
-
-	KCoreAddons.KUser {
-		id: kuser
-	}
 
 	Base64JsonListModel {
 		id: calendarsModel
@@ -32,7 +27,8 @@ ConfigPage {
 		}
 
 		function addNewCalendar() {
-			var dirPath = '/home/' + kuser.loginName + '/.local/share/plasma_org.kde.plasma.eventcalendar'
+			var dataPath = Shared.urlToPath(StandardPaths.writableLocation(StandardPaths.GenericDataLocation))
+			var dirPath = dataPath + '/plasma_org.kde.plasma.eventcalendar'
 			var icsPath = dirPath + '/calendar.ics'
 			addItem({
 				url: icsPath,
@@ -49,12 +45,12 @@ ConfigPage {
 			text: i18n("Calendars")
 		}
 		Button {
-			iconName: "resource-calendar-insert"
+			icon.name: "resource-calendar-insert"
 			text: i18n("Add Calendar")
 			onClicked: calendarsModel.addCalendar()
 		}
 		Button {
-			iconName: "resource-calendar-insert"
+			icon.name: "resource-calendar-insert"
 			text: i18n("New Calendar")
 			onClicked: calendarsModel.addNewCalendar()
 		}
@@ -62,7 +58,7 @@ ConfigPage {
 
 	ColumnLayout {
 		Layout.fillWidth: true
-		spacing: 20 * Kirigami.Units.devicePixelRatio // x4 the default spacing (5px)
+		spacing: 20 // x4 the default spacing (5px)
 
 		Repeater {
 			model: calendarsModel
@@ -74,7 +70,6 @@ ConfigPage {
 					Layout.preferredWidth: height
 					Layout.alignment: Qt.AlignTop
 					checked: show
-					style: CheckBoxStyle {}
 
 					onClicked: {
 						calendarsModel.setProperty(index, 'show', checked)
@@ -94,7 +89,7 @@ ConfigPage {
 							placeholderText: i18n("Calendar Label")
 						}
 						Button {
-							iconName: "trash-empty"
+							icon.name: "trash-empty"
 							onClicked: calendarsModel.removeIndex(index)
 						}
 					}
@@ -107,7 +102,7 @@ ConfigPage {
 						}
 
 						Button {
-							iconName: "folder-open"
+							icon.name: "folder-open"
 							text: i18n("Browse")
 							onClicked: {
 								filePicker.open()
@@ -118,8 +113,8 @@ ConfigPage {
 
 								nameFilters: [ i18n("iCalendar (*.ics)") ]
 
-								onFileUrlChanged: {
-									calendarUrlField.text = fileUrl
+								onAccepted: {
+									calendarUrlField.text = Shared.urlToPath(selectedFile)
 								}
 							}
 						}

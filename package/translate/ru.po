@@ -8,8 +8,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: eventcalendar\n"
-"Report-Msgid-Bugs-To: https://github.com/Zren/plasma-applet-eventcalendar\n"
-"POT-Creation-Date: 2023-08-18 10:16-0400\n"
+"Report-Msgid-Bugs-To: https://github.com/frispete/plasma-applet-"
+"eventcalendar\n"
+"POT-Creation-Date: 2026-10-27 17:41+0100\n"
 "PO-Revision-Date: 2020-01-05 22:01+0300\n"
 "Last-Translator: aliger14 <aliger14@mail.ru>\n"
 "Language-Team: ru\n"
@@ -20,16 +21,6 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Poedit 2.2.3\n"
-
-#: ../metadata.desktop ../contents/ui/AgendaView.qml
-#: ../contents/ui/UpcomingEvents.qml
-msgid "Event Calendar"
-msgstr "Календарь событий"
-
-#: ../metadata.desktop
-msgid ""
-"Plasmoid for a calendar+agenda with weather that syncs to Google Calendar."
-msgstr "Календарь событий с погодой и синхронизацией с Google Calendar."
 
 #: ../contents/config/config.qml
 msgid "General"
@@ -59,10 +50,6 @@ msgstr "События"
 msgid "ICalendar (.ics)"
 msgstr "ICalendar (.ics)"
 
-#: ../contents/config/config.qml ../contents/ui/config/ConfigEvents.qml
-msgid "Google Calendar"
-msgstr "Google календарь"
-
 #: ../contents/config/config.qml
 msgid "Weather"
 msgstr "Погода"
@@ -71,30 +58,13 @@ msgstr "Погода"
 msgid "Advanced"
 msgstr "Расширенные"
 
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/EditEventForm.qml
-#: ../contents/ui/LocaleFuncs.js
+#: ../contents/ui/AgendaEventItem.qml ../contents/ui/LocaleFuncs.js
 msgid "All Day"
 msgstr "Весь день"
 
 #: ../contents/ui/AgendaEventItem.qml
-msgid "Hangout"
-msgstr "Hangout"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit"
-msgstr "Редактировать"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Delete Event"
-msgstr "Удалить событие"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Confirm Deletion"
-msgstr "Подтвердить удаление"
-
-#: ../contents/ui/AgendaEventItem.qml ../contents/ui/AgendaTaskItem.qml
-msgid "Edit in browser"
-msgstr "Редактировать в браузере"
+msgid "Open in browser"
+msgstr ""
 
 #: ../contents/ui/AgendaListItem.qml
 msgctxt "agenda date format line 1"
@@ -106,10 +76,9 @@ msgctxt "agenda date format line 2"
 msgid "ddd"
 msgstr "ddd"
 
-#: ../contents/ui/AgendaTaskItem.qml ../contents/ui/LocaleFuncs.js
-msgctxt "short month+date format"
-msgid "MMM d"
-msgstr "MMM d"
+#: ../contents/ui/AgendaView.qml ../contents/ui/UpcomingEvents.qml
+msgid "Event Calendar"
+msgstr "Календарь событий"
 
 #: ../contents/ui/calendars/CalendarManager.qml
 msgctxt "event with no summary"
@@ -119,30 +88,6 @@ msgstr "(Без названия)"
 #: ../contents/ui/CalendarSelector.qml
 msgid "[No Calendars]"
 msgstr "[Без календарей]"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "HTTP Error %1: %2"
-msgstr "Ошибка соединения %1: %2"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Could not connect"
-msgstr "Невозможно установить соединение"
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml ../contents/ui/Logic.qml
-msgid "Will try again soon."
-msgstr "Чуть позже повторим."
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-#: ../contents/ui/config/ConfigGoogleCalendar.qml ../contents/ui/Logic.qml
-msgid ""
-"Widget has been updated. Please logout and login to Google Calendar again."
-msgstr ""
-"Виджет был обновлен. Выйдите из учетной записи Google Calendar и войдите "
-"снова."
-
-#: ../contents/ui/calendars/GoogleCalendarManager.qml
-msgid "Too many web requests. Will try again soon."
-msgstr "Слишком много запросов. Чуть позже повторим."
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Show agenda"
@@ -200,10 +145,6 @@ msgid "Click Date:"
 msgstr "Клик по дате:"
 
 #: ../contents/ui/config/ConfigAgenda.qml
-msgid "Open New Event In Browser"
-msgstr "Открыть новое событие в браузере"
-
-#: ../contents/ui/config/ConfigAgenda.qml
 msgid "Open New Event Form"
 msgstr "Открыть форму нового события"
 
@@ -214,10 +155,6 @@ msgstr "Описание события"
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Hide 'All Day' text"
 msgstr "Скрыть «Все дни»"
-
-#: ../contents/ui/config/ConfigAgenda.qml
-msgid "Google Hangouts link"
-msgstr "Переход на Google Hangouts"
 
 #: ../contents/ui/config/ConfigAgenda.qml
 msgid "Click Event:"
@@ -289,8 +226,8 @@ msgid "Double-click on Date:"
 msgstr "Двойной клик по дате:"
 
 #: ../contents/ui/config/ConfigCalendar.qml
-msgid "New Google Calendar Event (Web Browser)"
-msgstr "Новое событие Google Calendar (В браузере)"
+msgid "New Event (Agenda)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigCalendar.qml
 msgid "Do Nothing"
@@ -385,6 +322,13 @@ msgstr "Плагины календаря событий"
 #: ../contents/ui/config/ConfigEvents.qml
 msgid "Plasma Calendar Plugins"
 msgstr "Плагины календаря Plasma"
+
+#: ../contents/ui/config/ConfigEvents.qml
+msgid ""
+"Enable the calendar events (PIM) plugin to show calendars from KOrganizer/"
+"Akonadi, eg: Google Calendar. Choose the calendars on its settings page, "
+"which appears in the sidebar once the plugin is enabled."
+msgstr ""
 
 #: ../contents/ui/config/ConfigEvents.qml
 #: ../contents/ui/config/ConfigGeneral.qml
@@ -522,8 +466,8 @@ msgid "Volume (No UI) (amixer)"
 msgstr "Регулировка (без интерфейса) (amixer)"
 
 #: ../contents/ui/config/ConfigGeneral.qml
-msgid "Volume (UI) (qdbus)"
-msgstr "Регулировка (с интерфейсом) (qdbus)"
+msgid "Volume (UI) (qdbus6)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigGeneral.qml
 msgid "Desktop Widget: Show background"
@@ -541,81 +485,9 @@ msgstr "Логи ошибок будут записываться в:"
 msgid "Enable Debugging"
 msgstr "Включить отладку"
 
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Login"
-msgstr "Авторизация"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Currently Synched."
-msgstr "В настоящее время синхронизировано."
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Logout"
-msgstr "Выйти"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "To sync with Google Calendar"
-msgstr "Синхронизация с календарём Google"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid ""
-"Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login and "
-"give permission to access your calendar, it will give you a code to paste "
-"below."
-msgstr ""
-"Посетите <a href=\"%1\">%2</a> (открывается в вашем веб-браузере). После "
-"того, как вы войдёте в систему и дадите разрешение на доступ к своему "
-"календарю, он даст вам код для вставки ниже."
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Copy Link"
-msgstr "Копировать ссылку"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Enter code here (Eg: %1)"
-msgstr "Введите код сюда (Например: %1)"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Submit"
-msgstr "Отправить"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Invalid Google Authorization Code"
-msgstr "Неверный код Google авторизации"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Calendars"
 msgstr "Календари"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Refresh"
-msgstr "Обновить"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Tasks"
-msgstr "Задачи"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Options"
-msgstr "Параметры"
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Event Click:"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Event View"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Open Web Month View"
-msgstr ""
-
-#: ../contents/ui/config/ConfigGoogleCalendar.qml
-msgid "Hide \"This event was added from Goals in Google Calendar\" description"
-msgstr ""
-"Скрыть описание \"Это событие было добавлено из целей Google календаря\""
 
 #: ../contents/ui/config/ConfigICal.qml
 msgid "Add Calendar"
@@ -646,8 +518,14 @@ msgid "Agenda below the Calendar (Single Column)"
 msgstr "Распорядок под календарем (Одна колонка)"
 
 #: ../contents/ui/config/ConfigTimezones.qml
-msgid "Tooltip"
-msgstr "Подсказка"
+msgctxt "city, region"
+msgid "%1, %2"
+msgstr ""
+
+#: ../contents/ui/config/ConfigTimezones.qml
+msgctxt "time zone name (comment)"
+msgid "%1 (%2)"
+msgstr ""
 
 #: ../contents/ui/config/ConfigTimezones.qml
 msgid "Cannot deselect Local time from the tooltip"
@@ -672,10 +550,6 @@ msgstr "Например: 5983720"
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Find City"
 msgstr "Найти"
-
-#: ../contents/ui/config/ConfigWeather.qml
-msgid "Eg: on-14"
-msgstr "Например: на-14"
 
 #: ../contents/ui/config/ConfigWeather.qml
 msgid "Settings"
@@ -741,73 +615,20 @@ msgid "Icons"
 msgstr "Значок"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Select city"
 msgstr "Выбрать город"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Fetched from <a href=\"%1\">%1</a>"
 msgstr "Выбрать из <a href=\"%1\">%1</a>"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Search"
 msgstr "Поиск"
 
 #: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Name"
-msgstr "Имя"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "Id"
-msgstr "Id"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
-msgid "City Webpage"
-msgstr "Веб-сайт города"
-
-#: ../contents/ui/config/OpenWeatherMapCityDialog.qml
-#: ../contents/ui/config/WeatherCanadaCityDialog.qml
 msgid "Open Link"
 msgstr "Открыть ссылку"
-
-#: ../contents/ui/DateTimeSelector.qml
-msgctxt "event editor date format"
-msgid "d MMM, yyyy"
-msgstr "d MMM, yyyy"
-
-#: ../contents/ui/DurationSelector.qml
-msgid "to"
-msgstr "до"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Event Title"
-msgstr "Название мероприятия"
-
-#: ../contents/ui/EditEventForm.qml
-msgid "Add location"
-msgstr "Добавить местоположение"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "Add description"
-msgstr "Добавить описание"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-msgid "&Save"
-msgstr "&Сохранить"
-
-#: ../contents/ui/EditEventForm.qml ../contents/ui/EditTaskForm.qml
-#: ../contents/ui/TimerInputView.qml
-msgid "&Cancel"
-msgstr "&Отменить"
-
-#: ../contents/ui/EditTaskForm.qml
-msgid "Add due date"
-msgstr "Добавить дату окончания"
 
 #: ../contents/ui/lib/AppletVersion.qml
 msgid "<b>Version:</b> %1"
@@ -851,6 +672,11 @@ msgid "h:mm AP"
 msgstr "h:mm AP"
 
 #: ../contents/ui/LocaleFuncs.js
+msgctxt "short month+date format"
+msgid "MMM d"
+msgstr "MMM d"
+
+#: ../contents/ui/LocaleFuncs.js
 msgctxt "date (%1) with time (%2)"
 msgid "%1, %2"
 msgstr "%1, %2"
@@ -878,20 +704,24 @@ msgid "%1s"
 msgstr "%1s"
 
 #: ../contents/ui/Logic.qml
-msgid "Weather API limit reached"
-msgstr "Лимит API по запросам"
+msgid "Could not connect"
+msgstr "Невозможно установить соединение"
 
 #: ../contents/ui/Logic.qml
-msgid "Logged out of Google. Please login again."
-msgstr "Произведен выход из Google. Войдите снова."
+msgid "HTTP Error %1: %2"
+msgstr "Ошибка соединения %1: %2"
+
+#: ../contents/ui/Logic.qml
+msgid "Will try again soon."
+msgstr "Чуть позже повторим."
+
+#: ../contents/ui/Logic.qml
+msgid "Weather API limit reached"
+msgstr "Лимит API по запросам"
 
 #: ../contents/ui/main.qml
 msgid "Set Language…"
 msgstr "Установить язык…"
-
-#: ../contents/ui/main.qml
-msgid "Set Locale…"
-msgstr "Установить локаль …"
 
 #: ../contents/ui/MeteogramView.qml
 #, c-format
@@ -929,6 +759,10 @@ msgstr "Ошибка получения погоды."
 #: ../contents/ui/TimerInputView.qml
 msgid "&Start"
 msgstr "&Пуск"
+
+#: ../contents/ui/TimerInputView.qml
+msgid "&Cancel"
+msgstr "&Отменить"
 
 #: ../contents/ui/TimerModel.qml
 msgid "Timer finished"
@@ -978,6 +812,139 @@ msgstr "Ближайшие события"
 msgctxt "%1 = 15 minutes"
 msgid "Starting in %1"
 msgstr ""
+
+#~ msgid ""
+#~ "Plasmoid for a calendar+agenda with weather that syncs to Google Calendar."
+#~ msgstr "Календарь событий с погодой и синхронизацией с Google Calendar."
+
+#~ msgid "Google Calendar"
+#~ msgstr "Google календарь"
+
+#~ msgid "Hangout"
+#~ msgstr "Hangout"
+
+#~ msgid "Edit"
+#~ msgstr "Редактировать"
+
+#~ msgid "Delete Event"
+#~ msgstr "Удалить событие"
+
+#~ msgid "Confirm Deletion"
+#~ msgstr "Подтвердить удаление"
+
+#~ msgid "Edit in browser"
+#~ msgstr "Редактировать в браузере"
+
+#~ msgid ""
+#~ "Widget has been updated. Please logout and login to Google Calendar again."
+#~ msgstr ""
+#~ "Виджет был обновлен. Выйдите из учетной записи Google Calendar и войдите "
+#~ "снова."
+
+#~ msgid "Too many web requests. Will try again soon."
+#~ msgstr "Слишком много запросов. Чуть позже повторим."
+
+#~ msgid "Open New Event In Browser"
+#~ msgstr "Открыть новое событие в браузере"
+
+#~ msgid "Google Hangouts link"
+#~ msgstr "Переход на Google Hangouts"
+
+#~ msgid "New Google Calendar Event (Web Browser)"
+#~ msgstr "Новое событие Google Calendar (В браузере)"
+
+#~ msgid "Volume (UI) (qdbus)"
+#~ msgstr "Регулировка (с интерфейсом) (qdbus)"
+
+#~ msgid "Login"
+#~ msgstr "Авторизация"
+
+#~ msgid "Currently Synched."
+#~ msgstr "В настоящее время синхронизировано."
+
+#~ msgid "Logout"
+#~ msgstr "Выйти"
+
+#~ msgid "To sync with Google Calendar"
+#~ msgstr "Синхронизация с календарём Google"
+
+#~ msgid ""
+#~ "Visit <a href=\"%1\">%2</a> (opens in your web browser). After you login "
+#~ "and give permission to access your calendar, it will give you a code to "
+#~ "paste below."
+#~ msgstr ""
+#~ "Посетите <a href=\"%1\">%2</a> (открывается в вашем веб-браузере). После "
+#~ "того, как вы войдёте в систему и дадите разрешение на доступ к своему "
+#~ "календарю, он даст вам код для вставки ниже."
+
+#~ msgid "Copy Link"
+#~ msgstr "Копировать ссылку"
+
+#~ msgid "Enter code here (Eg: %1)"
+#~ msgstr "Введите код сюда (Например: %1)"
+
+#~ msgid "Submit"
+#~ msgstr "Отправить"
+
+#~ msgid "Invalid Google Authorization Code"
+#~ msgstr "Неверный код Google авторизации"
+
+#~ msgid "Refresh"
+#~ msgstr "Обновить"
+
+#~ msgid "Tasks"
+#~ msgstr "Задачи"
+
+#~ msgid "Options"
+#~ msgstr "Параметры"
+
+#~ msgid ""
+#~ "Hide \"This event was added from Goals in Google Calendar\" description"
+#~ msgstr ""
+#~ "Скрыть описание \"Это событие было добавлено из целей Google календаря\""
+
+#~ msgid "Tooltip"
+#~ msgstr "Подсказка"
+
+#~ msgid "Eg: on-14"
+#~ msgstr "Например: на-14"
+
+#~ msgid "Name"
+#~ msgstr "Имя"
+
+#~ msgid "Id"
+#~ msgstr "Id"
+
+#~ msgid "City Webpage"
+#~ msgstr "Веб-сайт города"
+
+#~ msgctxt "event editor date format"
+#~ msgid "d MMM, yyyy"
+#~ msgstr "d MMM, yyyy"
+
+#~ msgid "to"
+#~ msgstr "до"
+
+#~ msgid "Event Title"
+#~ msgstr "Название мероприятия"
+
+#~ msgid "Add location"
+#~ msgstr "Добавить местоположение"
+
+#~ msgid "Add description"
+#~ msgstr "Добавить описание"
+
+#~ msgid "&Save"
+#~ msgstr "&Сохранить"
+
+#~ msgid "Add due date"
+#~ msgstr "Добавить дату окончания"
+
+#~ msgid "Logged out of Google. Please login again."
+#~ msgstr "Произведен выход из Google. Войдите снова."
+
+#~ msgid "Set Locale…"
+#~ msgstr "Установить локаль …"
 
 #~ msgid "Weather API limit reached, will try again soon."
 #~ msgstr "Достигнут погодный лимит API, обновится чуть позже."

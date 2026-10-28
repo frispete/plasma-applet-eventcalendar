@@ -1,8 +1,9 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.0
-import QtQuick.Layouts 1.0
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
 
-import org.kde.plasma.calendar 2.0 as PlasmaCalendar
+import org.kde.plasma.workspace.calendar as PlasmaCalendar
+import org.kde.plasma.plasmoid
 
 import "../lib"
 import "../calendars/PlasmaCalendarUtils.js" as PlasmaCalendarUtils
@@ -12,17 +13,13 @@ ConfigPage {
 
 	HeaderText {
 		text: i18n("Event Calendar Plugins")
+		visible: Plasmoid.configuration.debugging
 	}
 
 	ConfigSection {
+		visible: Plasmoid.configuration.debugging
 		CheckBox {
 			text: i18n("ICalendar (.ics)")
-			checked: true
-			enabled: false
-			visible: plasmoid.configuration.debugging
-		}
-		CheckBox {
-			text: i18n("Google Calendar")
 			checked: true
 			enabled: false
 		}
@@ -33,28 +30,33 @@ ConfigPage {
 		text: i18n("Plasma Calendar Plugins")
 	}
 
+	Label {
+		Layout.fillWidth: true
+		wrapMode: Text.Wrap
+		text: i18n("Enable the calendar events (PIM) plugin to show calendars from KOrganizer/Akonadi, eg: Google Calendar. Choose the calendars on its settings page, which appears in the sidebar once the plugin is enabled.")
+	}
+
 	// From digitalclock's configCalendar.qml
-	signal configurationChanged()
+	PlasmaCalendar.EventPluginsManager {
+		id: eventPluginsManager
+		Component.onCompleted: populateEnabledPluginsList(PlasmaCalendarUtils.toPluginIdList(Plasmoid.configuration.enabledCalendarPlugins))
+	}
 	ConfigSection {
 		Repeater {
 			id: calendarPluginsRepeater
-			model: PlasmaCalendar.EventPluginsManager.model
+			model: eventPluginsManager.model
 			delegate: CheckBox {
 				text: model.display
 				checked: model.checked
 				onClicked: {
 					model.checked = checked // needed for model's setData to be called
-					// page.configurationChanged()
 					page.saveConfig()
 				}
 			}
 		}
 	}
 	function saveConfig() {
-		plasmoid.configuration.enabledCalendarPlugins = PlasmaCalendarUtils.pluginPathToFilenameList(PlasmaCalendar.EventPluginsManager.enabledPlugins)
-	}
-	Component.onCompleted: {
-		PlasmaCalendarUtils.populateEnabledPluginsByFilename(PlasmaCalendar.EventPluginsManager, plasmoid.configuration.enabledCalendarPlugins)
+		Plasmoid.configuration.enabledCalendarPlugins = eventPluginsManager.enabledPlugins
 	}
 
 	HeaderText {

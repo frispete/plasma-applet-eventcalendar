@@ -1,4 +1,4 @@
 #!/bin/bash
 
-git pull origin master
-source ./install
+cd "$(dirname "$0")"
+git pull --ff-only && exec ./install "$@"

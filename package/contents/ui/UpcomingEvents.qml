@@ -1,5 +1,5 @@
-import QtQuick 2.0
-import org.kde.plasma.core 2.0 as PlasmaCore
+import QtQuick
+import org.kde.plasma.plasmoid
 
 import "LocaleFuncs.js" as LocaleFuncs
 import "./calendars"
@@ -8,7 +8,7 @@ CalendarManager {
 	id: upcomingEvents
 
 	property int upcomingEventRange: 90 // minutes
-	property int minutesBeforeReminding: plasmoid.configuration.eventReminderMinutesBefore // minutes
+	property int minutesBeforeReminding: Plasmoid.configuration.eventReminderMinutesBefore // minutes
 
 	onFetchingData: {
 		logger.debug('upcomingEvents.onFetchingData')
@@ -170,7 +170,7 @@ CalendarManager {
 			// expireTimeout: (minutes*60 - 1) * 1000, // timeout resets on hover so may last longer than event starts.
 			summary: summaryText,
 			body: bodyText,
-			soundFile: plasmoid.configuration.eventReminderSfxEnabled ? plasmoid.configuration.eventReminderSfxPath : '',
+			soundFile: Plasmoid.configuration.eventReminderSfxEnabled ? Plasmoid.configuration.eventReminderSfxPath : '',
 		})
 	}
 
@@ -184,7 +184,7 @@ CalendarManager {
 				relativeDate: timeModel.currentTime,
 				clock24h: appletConfig.clock24h,
 			}),
-			soundFile: plasmoid.configuration.eventStartingSfxEnabled ? plasmoid.configuration.eventStartingSfxPath : '',
+			soundFile: Plasmoid.configuration.eventStartingSfxEnabled ? Plasmoid.configuration.eventStartingSfxPath : '',
 		})
 	}
 
@@ -193,11 +193,11 @@ CalendarManager {
 			var calendar = eventsByCalendar[calendarId]
 			calendar.items.forEach(function(eventItem, index, calendarEventList) {
 				if (isEventStarting(eventItem)) {
-					if (plasmoid.configuration.eventStartingNotificationEnabled) {
+					if (Plasmoid.configuration.eventStartingNotificationEnabled) {
 						sendEventStartingNotification(eventItem)
 					}
 				} else if (shouldSendReminder(eventItem)) {
-					if (plasmoid.configuration.eventReminderNotificationEnabled) {
+					if (Plasmoid.configuration.eventReminderNotificationEnabled) {
 						sendEventReminderNotification(eventItem, minutesBeforeReminding)
 					}
 				}
@@ -211,7 +211,7 @@ CalendarManager {
 
 	Connections {
 		target: eventModel
-		onAllDataFetched: {
+		function onAllDataFetched() {
 			logger.debug('upcomingEvents eventModel.onAllDataFetched', eventModel.dateMin, timeModel.currentTime, eventModel.dateMax)
 			// if data is from current month
 			if (eventModel.dateMin <= timeModel.currentTime && timeModel.currentTime <= eventModel.dateMax) {
@@ -227,6 +227,6 @@ CalendarManager {
 
 	Connections {
 		target: timeModel
-		onMinuteChanged: upcomingEvents.tick()
+		function onMinuteChanged() { upcomingEvents.tick() }
 	}
 }

@@ -1,3 +1,21 @@
+## v77 - Unreleased
+
+Port to Qt 6 / Plasma 6 (no longer supports Plasma 5).
+
+* Remove the built-in Google Calendar/Tasks sync, Google shut down the OOB
+  login it used. Google calendars can be shown with Akonadi and the
+  calendar events (PIM) plugin.
+* Remove the agenda's event/task edit forms, which only worked for Google.
+* Remove the Weather Canada provider.
+* Network detection checks for a default route, so it works with
+  NetworkManager, wicked and others.
+* The day double click action can open the agenda's new event form.
+* Dates in the agenda and month view are localized again.
+* Show the OpenWeatherMap API key setting outside of debug mode.
+* Mouse wheel volume presets use qdbus6.
+* enabledCalendarPlugins stores Plasma 6 plugin ids (migrated automatically).
+* Complete the German translation.
+
 ## v76 - May 3 2022
 
 * Do not show calendar border by default anymore.
