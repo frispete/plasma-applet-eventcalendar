@@ -37,7 +37,7 @@
 		"Name[tr]": "Etkinlik Takvimi",
 		"Name[uk]": "Календар подій",
 		"Version": "77",
-		"Website": "https://github.com/frispete/plasma-applet-eventcalendar"
+		"Website": "https://github.com/frispete/plasma-applet-eventcalendar-aiport"
 	},
 	"X-Plasma-API-Minimum-Version": "6.0",
 	"X-Plasma-Provides": [
