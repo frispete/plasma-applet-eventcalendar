@@ -5,7 +5,7 @@ The `Name`/`Description` translations in `metadata.json` are maintained by hand.
 
 ## New Translations
 
-1. Fill out [`template.pot`](template.pot) with your translations then open a [new issue](https://github.com/frispete/plasma-applet-eventcalendar-aiport/issues/new), name the file `spanish.txt`, attach the txt file to the issue (drag and drop).
+1. Fill out [`template.pot`](template.pot) with your translations then open a [new issue](https://github.com/frispete/plasma-applet-eventcalendar/issues/new), name the file `spanish.txt`, attach the txt file to the issue (drag and drop).
 
 Or if you know how to make a pull request
 

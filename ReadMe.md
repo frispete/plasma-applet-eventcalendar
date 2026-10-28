@@ -39,7 +39,7 @@ sudo zypper install plasma6-workspace plasma5support6 qt6-qt5compat-imports \
 ## Install
 
 ```
-git clone https://github.com/frispete/plasma-applet-eventcalendar-aiport.git eventcalendar
+git clone https://github.com/frispete/plasma-applet-eventcalendar.git eventcalendar
 cd eventcalendar
 ./install
 ```
