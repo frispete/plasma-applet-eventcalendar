@@ -146,6 +146,9 @@ detect_distro() {
         *"fedora"*|*"rhel"*|*"centos"*)
             DISTRO_FAMILY="fedora"
             ;;
+        *"suse"*)
+            DISTRO_FAMILY="suse"
+            ;;
     esac
 }
 
@@ -163,6 +166,9 @@ install_packages() {
             ;;
         "fedora")
             sudo dnf install -y "$@"
+            ;;
+        "suse")
+            sudo zypper --non-interactive install "$@"
             ;;
         *)
             echo "Unsupported distribution: ${DISTRO:-unknown}"
@@ -281,6 +287,26 @@ install_requirements() {
                 "akonadi-server"
                 "kdepim-addons"
                 "kdepim-runtime"
+            )
+            ;;
+        "suse")
+            required_commands=("kpackagetool6")
+            packages_to_install=("kf6-kpackage")
+            qdbus_package="qt6-tools-qdbus"
+            core_packages=(
+                "kf6-knotifications-imports"
+                "python3"
+                "secret-tool"
+                "libcanberra0"
+            )
+            optional_packages=(
+                "pipewire-tools"
+                "python3-icalendar"
+                "python3-pip"
+                "akonadi"
+                "kdepim-addons"
+                "kdepim-runtime"
+                "akonadi-calendar-tools"
             )
             ;;
         *)

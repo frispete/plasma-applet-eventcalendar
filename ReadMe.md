@@ -148,14 +148,15 @@ sh ./install
 ```
 
 `sh ./update` pulls and reinstalls; `sh ./uninstall` removes the widget. The scripts install the
-dependencies below on Debian/Ubuntu, Arch and Fedora.
+dependencies below on Debian/Ubuntu, Arch, Fedora and openSUSE.
 
 ## Dependencies
 
 - Plasma 6 (Qt 6 and KDE Frameworks 6)
 - `python3`
 - KNotifications QML module (`org.kde.notification`; Debian/Ubuntu:
-  `qml6-module-org-kde-notification`, Arch: `knotifications`, Fedora: `kf6-knotifications`)
+  `qml6-module-org-kde-notification`, Arch: `knotifications`, Fedora: `kf6-knotifications`,
+  openSUSE: `kf6-knotifications-imports`)
 - Kirigami Addons (settings pages)
 - `secret-tool` (libsecret) or KWallet, for storing Google tokens in the keyring
 
@@ -166,6 +167,7 @@ Optional:
   `recurring-ical-events>=3.8,<4` (RRULE / RDATE / EXDATE / RECURRENCE-ID expansion). The install
   script puts them under `~/.local/share/plasma_org.kde.plasma.eventcalendar/python`.
 - Akonadi / KDE PIM calendars: `akonadi` + `kdepim-addons`; creating local events: `konsolekalendar`
+  (openSUSE: `akonadi-calendar-tools`)
 
 ## Setup
 
